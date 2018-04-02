@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 class UserProfile extends Component {
@@ -21,8 +21,10 @@ class UserProfile extends Component {
           }
     }
     render() { 
-        return (  )
+        return ( 
+            <div></div>
+         )
     }
 }
  
-export default connect(mapStateToProps)(UserProfile);
+export default UserProfile;

@@ -5,7 +5,6 @@ import NavBar from './nav-bar'
 import Home from './home'
 import SignUp from './sign-up'
 import SignIn from './sign-in'
-import Welcome from './welcome'
 import UserProfile from './user-profile'
 
 

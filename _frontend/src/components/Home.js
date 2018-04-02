@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import axios from 'axios'
 import {loadOtherUsers} from '../redux/actions'
 
@@ -23,4 +23,4 @@ class Home extends Component {
     }
 }
 
-export default connect(MapStateToProps,MapDispatchToProps)(Home);
+export default Home;

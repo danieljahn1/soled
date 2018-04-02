@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { userAuth } from '../redux/actions'
 
 class NavAnon extends Component {
@@ -12,7 +12,9 @@ class NavAnon extends Component {
          }
     }
     render() { 
-        return (  )
+        return ( 
+            <div></div>
+         )
     }
 }
  

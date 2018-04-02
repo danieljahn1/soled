@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { userCreate } from '../redux/actions'
 import { userAuth } from '../redux/actions'
 import uniqid from 'uniqid'
@@ -75,11 +75,11 @@ class SignUp extends Component {
 }
 
 
-const mapDispatchToProps = dispatch => {
-    return {
-        createNewUserRedux: newUser => dispatch(userCreate(newUser)),
-        logInNewUserRedux: newUser => dispatch(userAuth(newUser)),
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         createNewUserRedux: newUser => dispatch(userCreate(newUser)),
+//         logInNewUserRedux: newUser => dispatch(userAuth(newUser)),
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default SignUp;

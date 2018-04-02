@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import NavAnon from './nav-anon'
 import NavKnown from './nav-known'
 
@@ -22,10 +22,10 @@ class Menu extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        loggedInUser: state.loggedInUser,
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         loggedInUser: state.loggedInUser,
+//     }
+// }
 
-export default connect(mapStateToProps)(Menu)
+export default Menu;

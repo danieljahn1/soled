@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { userAuth } from '../redux/actions'
 
 
@@ -62,10 +62,10 @@ class SignIn extends Component {
 }
 
 
-const mapDispatchToProps = dispatch => {
-    return {
-        sendToRedux: logInUser => dispatch(userAuth(logInUser)),
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         sendToRedux: logInUser => dispatch(userAuth(logInUser)),
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default SignIn;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import Menu from './menu'
 
 
@@ -42,4 +42,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(NavBar)
+export default NavBar;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { userLogOut } from '../redux/actions'
 
 
@@ -27,16 +27,16 @@ class NavKnown extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        loggedInUser: state.loggedInUser,
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         loggedInUser: state.loggedInUser,
+//     }
+// }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        sendToRedux: logOutUser => dispatch(userLogOut(logOutUser)),
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         sendToRedux: logOutUser => dispatch(userLogOut(logOutUser)),
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavKnown))
+export default NavKnown;

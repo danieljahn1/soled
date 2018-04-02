@@ -25,4 +25,4 @@ class Auction extends Component {
     }
 }
  
-export default connect(mapStateToProps)(Auction);
+export default Auction;
