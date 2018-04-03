@@ -8,18 +8,18 @@ namespace soled_backend
     [Route("soled/user")]
     public class UserController : Controller
     {
-        private UserContext _context;
+        private MasterContext _context;
 
-        public UserController(UserContext context)
+        public UserController(MasterContext context)
         {
             _context = context;
 
             if (_context.Users.Count() == 0)
             {
-            _context.Users.Add(new User("Andrew", "aanderson@email.com", "abc123"));
-            _context.Users.Add(new User("Daniel", "dahn@email.com", "abc123"));
-            _context.Users.Add(new User("Eric", "emasinas@email.com", "abc123"));
-            _context.Users.Add(new User("Lewis", "laguilar@email.com", "abc123"));
+            _context.Users.Add(new User("andrew", "aanderson@email.com", "abc123", "3 Bay Meadows Avenue", null, "Huntington Beach", "CA", 92647, "USA", ""));
+            _context.Users.Add(new User("daniel", "dahn@email.com", "abc123", "669 Fairfield St.", null, "Santa Ana", "CA", 92707, "USA", ""));
+            _context.Users.Add(new User("eric", "emasinas@email.com", "abc123", "5432 Belle Ave", null, "Cypress", "CA", 90630, "USA", ""));
+            _context.Users.Add(new User("lewis", "laguilar@email.com", "abc123", "573 Market Lane", null, "Anaheim", "CA", 92805, "USA", ""));
 
             _context.SaveChanges();
             }
@@ -35,7 +35,7 @@ namespace soled_backend
         [HttpGet("{id}")]
         public User GetUser(int id)
         {
-            return _context.Users.FirstOrDefault(c => c.Id == id);
+            return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace soled_backend
         [HttpDelete("{id}")]
         public User DeleteUser(int id)
         {
-            var found = _context.Users.FirstOrDefault(c => c.Id == id);
+            var found = _context.Users.FirstOrDefault(u => u.Id == id);
             _context.Users.Remove(found);
             _context.SaveChanges();
             return found;

@@ -24,7 +24,7 @@ namespace soled_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("soled"));
+            services.AddDbContext<MasterContext>(opt => opt.UseInMemoryDatabase("soled"));
             services.AddCors();
             services.AddMvc();
         }
