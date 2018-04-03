@@ -19,7 +19,7 @@ class Container extends Component {
                 <div className="nav-bar-div">
                     {/* <NavBar /> */}
                     {/* <SignUp/> */}
-                    <SignIn/>
+                    {/* <SignIn/> */}
                 </div>
             <div className="container-fluid">
                 <Switch>
