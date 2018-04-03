@@ -16,8 +16,8 @@ namespace soled_backend
 
             if (_context.Sneakers.Count() == 0)
             {
-                _context.Sneakers.Add(new Sneaker("Nike", "12", "Jordans", "Black", "1984", "Mint"));
-                _context.Sneakers.Add(new Sneaker("Reebok", "11.5", "Pump", "White", "v1", "Good"));
+                _context.Sneakers.Add(new Sneaker("Nike", "12", "Jordans", "Red and white", "1984", "Mint", "https://images.solecollector.com/complex/image/upload/rg1zccq86lstafmqms44.jpg"));
+                _context.Sneakers.Add(new Sneaker("Reebok", "11.5", "Pump", "White", "v1", "Good", "https://i.pinimg.com/originals/ed/7c/bc/ed7cbc373674f7644dea3e9e228e9242.jpg"));
                
                 _context.SaveChanges();
             }

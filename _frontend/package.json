@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/app.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --history-api-fallback",
     "build": "webpack"
   },
   "license": "ISC",
@@ -11,7 +11,9 @@
     "axios": "^0.18.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

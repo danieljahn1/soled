@@ -1,3 +1,5 @@
+
+
 export const listingCreate = newListing => ({type: 'LISTING_CREATE', payload: newListing})
 export const userCreate = newUser => ({type: 'USER_CREATE', payload: newUser})
 export const userAuth = logInUser => ({type: 'USER_AUTH', payload: logInUser})
