@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-// import { connect } from 'react-redux'
-import { userAuth } from '../redux/actions'
+// import { Link, Redirect } from 'react-router-dom'
+import axios from 'axios'
 
 
 class SignIn extends Component {
@@ -15,23 +14,14 @@ class SignIn extends Component {
         }
     }
 
-    userAuth() {
+    userSignIn(e) {
         if (this.state.verifyEmail != '' && this.state.verifyPassword != '') {
-            var usersArrCopy = this.props.usersArr.slice();
-            var objOfEmailFound = usersArrCopy.filter(item => item.email == this.state.verifyEmail)
-
-            if (objOfEmailFound.length > 0) {
-                if (objOfEmailFound[0].password == this.state.verifyPassword) {
-                    this.props.sendToRedux(objOfEmailFound);
-                    this.setState({ redirect: true });
-                } else {
-                    alert("Error: 5011 Incorrect Email or Password")
-                }
-            } else {
-                alert("Error: 5012 Incorrect Email or Password")
-            }
-        } else {
-            alert("Error: 5010 Please enter correct Email and Password.")
+            e.preventDefault();
+            var stringUrl = this.state.verifyEmail + '+' + this.state.verifyPassword
+            axios.get('http://localhost:5000/soled/user/' + stringUrl)
+                .then(response => {
+                    console.log(stringUrl)
+                })
         }
     }
 
@@ -44,7 +34,7 @@ class SignIn extends Component {
                 <div className="col-md-12">
                     <div className="pull-right">
                         <span>Don't have an account?</span>
-                        <Link to="/signup"><button className="btn btn-link">Sign Up</button></Link>
+                        {/* <Link to="/signup"><button className="btn btn-link">Sign Up</button></Link> */}
                     </div>
                     <form>
                         <div className="form-group">
@@ -53,7 +43,7 @@ class SignIn extends Component {
                         <div className="form-group">
                             <input type="password" className="form-control" id="password" autoComplete="current-password" placeholder="Password" value={this.state.verifyPassword} onChange={(e) => { this.setState({ verifyPassword: e.target.value }) }} required />
                         </div>
-                        <button type="submit" className="btn btn-success btn-block" onClick={this.userAuth.bind(this, this.state)}>Sign In</button>
+                        <button type="submit" className="btn btn-success btn-block" onClick={this.userSignIn.bind(this)}>Sign In</button>
                     </form>
                 </div>
             </div>
@@ -61,11 +51,4 @@ class SignIn extends Component {
     }
 }
 
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         sendToRedux: logInUser => dispatch(userAuth(logInUser)),
-//     }
-// }
-
-export default SignIn;
+export default SignIn
