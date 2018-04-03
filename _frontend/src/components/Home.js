@@ -11,15 +11,18 @@ class Home extends Component {
     }
 
     render() {
-        if (this.props.loggedInUser.length == 0) {
-            return (
-                <NavAnon />
-            )
-        } else {
-            return (
-                <NavKnown />
-            )
-        }
+        return (
+            <div></div>
+        )
+        // if (this.props.loggedInUser.length == 0) {
+        //     return (
+        //         <NavAnon />
+        //     )
+        // } else {
+        //     return (
+        //         <NavKnown />
+        //     )
+        // }
     }
 }
 

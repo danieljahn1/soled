@@ -17,7 +17,7 @@ class Container extends Component {
         return (
             <div className="container">
                 <div className="nav-bar-div">
-                    <NavBar />
+                    <h2>From Container</h2>
                 </div>
                 <Switch>
                     <Route exact path='/' component={Home} />
