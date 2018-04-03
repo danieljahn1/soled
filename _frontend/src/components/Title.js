@@ -7,10 +7,8 @@ class Title extends Component {
     }
     render() { 
         return ( 
-            <div>
-                <h1 className="pull-left">{this.props.title}</h1>
-                <a href="#" className="pull-right">Customers</a>
-                <a href="#" className="pull-right">Spinners</a>
+            <div className="container-fluid">
+                <h1>Soled</h1>
             </div>
          )
     }
