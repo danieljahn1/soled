@@ -16,8 +16,14 @@ namespace soled_backend
 
             if (_context.Sneakers.Count() == 0)
             {
-                _context.Sneakers.Add(new Sneaker("Nike", "12", "Jordans", "Red and white", "1984", "Mint", "https://images.solecollector.com/complex/image/upload/rg1zccq86lstafmqms44.jpg"));
-                _context.Sneakers.Add(new Sneaker("Reebok", "11.5", "Pump", "White", "v1", "Good", "https://i.pinimg.com/originals/ed/7c/bc/ed7cbc373674f7644dea3e9e228e9242.jpg"));
+                Sneaker sneaker1 = new Sneaker("Nike", "12", "Jordans", "Red and white", "1984", "Mint");
+                sneaker1.SneakerPics.Add(new SneakerImage("https://images.solecollector.com/complex/image/upload/rg1zccq86lstafmqms44.jpg"));
+                sneaker1.SneakerPics.Add(new SneakerImage("http://www.rantsports.com/clubhouse/files/2015/11/airjordan1cropped.jpg"));
+                _context.Sneakers.Add(sneaker1);
+                
+                Sneaker sneaker2 = new Sneaker("Reebok", "11.5", "Pump", "White", "v1", "Good");
+                sneaker2.SneakerPics.Add(new SneakerImage("https://i.pinimg.com/originals/ed/7c/bc/ed7cbc373674f7644dea3e9e228e9242.jpg"));
+                _context.Sneakers.Add(sneaker2);
                
                 _context.SaveChanges();
             }
@@ -27,13 +33,13 @@ namespace soled_backend
         [HttpGet]
         public List<Sneaker> GetSneakers()
         {
-            return _context.Sneakers.ToList();
+            return _context.Sneakers.Include(s => s.SneakerPics).ToList();
         }
 
         [HttpGet("{id}")]
         public Sneaker GetSneaker(int id)
         {
-            return _context.Sneakers.FirstOrDefault(c => c.Id == id);
+            return _context.Sneakers.Include(s => s.SneakerPics).FirstOrDefault(c => c.Id == id);
         }
 
         [HttpPost]
