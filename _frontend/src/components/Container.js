@@ -17,14 +17,16 @@ class Container extends Component {
         return (
             <div className="container">
                 <div className="nav-bar-div">
-                    <NavBar />
+                    {/* <NavBar /> */}
+                    {/* <SignUp/> */}
+                    <SignIn/>
                 </div>
-                <Switch>
+                {/* <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/signup' component={SignUp} />
                     <Route path='/signin' component={SignIn} />
                     <Route path='/userprofile/' component={UserProfile} />
-                </Switch>
+                </Switch> */}
             </div>
         )
     }

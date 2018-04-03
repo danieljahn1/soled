@@ -33,9 +33,27 @@ namespace soled_backend
         }
 
         [HttpGet("{id}")]
-        public User GetUser(int id)
+        public User GetUserById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        [HttpGet("{email}")]
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        [HttpGet("{username}")]
+        public User GetUserByUsername(string username)
+        {
+            return _context.Users.FirstOrDefault(u => u.Username == username);
+        }
+
+        [HttpGet("{email}+{password}")]
+        public User GetUserByEmailPassword(string email, string password)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
         }
 
         [HttpPost]
@@ -47,7 +65,7 @@ namespace soled_backend
         }
 
         [HttpPut("{id}")]
-        public User PutUser(int id, [FromBody]User user)
+        public User PutUserById(int id, [FromBody]User user)
         {
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
@@ -55,7 +73,7 @@ namespace soled_backend
         }
 
         [HttpDelete("{id}")]
-        public User DeleteUser(int id)
+        public User DeleteUserById(int id)
         {
             var found = _context.Users.FirstOrDefault(u => u.Id == id);
             _context.Users.Remove(found);
