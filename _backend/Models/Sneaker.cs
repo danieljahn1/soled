@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace soled_backend
 {
@@ -12,14 +13,14 @@ namespace soled_backend
         public string Version { get; set; }
         public string Condition { get; set; }
         public string Description { get; set; }
-        public string SneakerImage { get; set; }
+        public List<SneakerImage> SneakerPics { get; set; }
 
         public Sneaker()
         {
-            
+            this.SneakerPics = new List<SneakerImage>();
         }
 
-        public Sneaker(string brand, string size, string model, string style, string version, string condition, string shoeImage)
+        public Sneaker(string brand, string size, string model, string style, string version, string condition)
         {
             this.Brand = brand;
             this.Size = size;
@@ -27,7 +28,7 @@ namespace soled_backend
             this.Style = style;
             this.Version = version;
             this.Condition = condition;
-            this.SneakerImage = shoeImage;
+            this.SneakerPics = new List<SneakerImage>();
         }
     }
 
