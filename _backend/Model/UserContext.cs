@@ -9,5 +9,8 @@ namespace soled_backend
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Sneaker> Sneakers { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Bid> Bids { get; set; }
     }
 }
