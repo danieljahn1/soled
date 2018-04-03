@@ -8,9 +8,9 @@ namespace soled_backend
     [Route("soled/sneaker")]
     public class SneakerController : Controller
     {
-        private UserContext _context;
+        private MasterContext _context;
 
-        public SneakerController(UserContext context)
+        public SneakerController(MasterContext context)
         {
             _context = context;
 

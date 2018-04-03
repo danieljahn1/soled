@@ -2,13 +2,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace soled_backend
 {
-    public class UserContext : DbContext
+    public class MasterContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        public MasterContext(DbContextOptions<MasterContext> options) : base(options)
         {
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Sneaker> Sneakers { get; set; }
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Bid> Bids { get; set; }

@@ -9,9 +9,9 @@ namespace soled_backend
     [Route("soled/bid")]
     public class BidController : Controller
     {
-        private UserContext _context;
+        private MasterContext _context;
 
-        public BidController(UserContext context)
+        public BidController(MasterContext context)
         {
             _context = context;
 

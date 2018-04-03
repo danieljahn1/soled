@@ -9,9 +9,9 @@ namespace soled_backend
     [Route("soled/auction")]
     public class AuctionController : Controller
     {
-        private UserContext _context;
+        private MasterContext _context;
 
-        public AuctionController(UserContext context)
+        public AuctionController(MasterContext context)
         {
             _context = context;
 
