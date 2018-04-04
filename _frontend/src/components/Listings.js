@@ -19,7 +19,7 @@ class Listings extends React.Component {
         // Get all sneakers
         axios.get('http://localhost:5000/soled/sneaker')
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
 
                 this.setState({
                     sneakers: response.data
