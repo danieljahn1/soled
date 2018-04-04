@@ -19,6 +19,11 @@ namespace soled_backend
             {
                 _context.Auctions.Add(new Auction(1, 1, DateTime.Parse("2018-04-01 12:00:00"), DateTime.Parse("2018-04-07 14:00:00"), 49.99));
                 _context.Auctions.Add(new Auction(2, 2, DateTime.Parse("2018-04-02 15:30:00"), DateTime.Parse("2018-04-10 16:00:00"), 24.99));
+                _context.Auctions.Add(new Auction(3, 1, DateTime.Parse("2018-03-29 11:30:00"), DateTime.Parse("2018-04-05 11:30:00"), 150));
+                _context.Auctions.Add(new Auction(4, 1, DateTime.Parse("2018-03-29 12:30:00"), DateTime.Parse("2018-04-05 12:00:00"), 500));
+                _context.Auctions.Add(new Auction(5, 4, DateTime.Parse("2018-03-30 15:30:00"), DateTime.Parse("2018-04-06 15:00:00"), 100));
+                _context.Auctions.Add(new Auction(6, 2, DateTime.Parse("2018-04-01 19:30:00"), DateTime.Parse("2018-04-07 19:00:00"), 100));
+                _context.Auctions.Add(new Auction(7, 3, DateTime.Parse("2018-04-02 18:00:00"), DateTime.Parse("2018-04-06 18:00:00"), 75));
                
                 _context.SaveChanges();
             }
