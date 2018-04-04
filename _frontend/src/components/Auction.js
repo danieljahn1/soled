@@ -39,6 +39,9 @@ class Auction extends Component {
 
     render() { 
         return ( 
+<<<<<<< HEAD
+            <div>
+=======
             <div className="container-fluid">                
                 <div className="container">
                 {/* { this.props.viewItems: Array 0 is the auction. Array 1 is the sneaker } */}
@@ -65,6 +68,7 @@ class Auction extends Component {
                 
                 </div>
                
+>>>>>>> 1d405cb4e54e3386e2914eee7e6537b269e2d7dc
             </div>
          )
     }

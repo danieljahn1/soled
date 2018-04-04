@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import { setLoginSession } from '../redux/actions'
 import axios from 'axios'
 
 
@@ -28,7 +30,7 @@ class SignUp extends Component {
 
     getUsers() {
         axios.get('http://localhost:5000/soled/user')
-            .then(response =>{
+            .then(response => {
                 this.setState({
                     usersArr: response.data
                 })
@@ -55,14 +57,15 @@ class SignUp extends Component {
                 .then(response => {
                     axios.get('http://localhost:5000/soled/user/email/' + this.state.addEmail)
                         .then(response => {
+                            this.props.sendUserObjToRedux(response.data);
                             var userId = { userId: response.data.id }
-                            console.log(response.data.id)
-                            console.log(userId)
                             axios.post('http://localhost:5000/soled/user/login/', userId)
+                                .then(response => {
+                                    this.setState({
+                                        redirect: true
+                                    })
+                                })
                         })
-                    this.setState({
-                        redirect: true
-                    })
                 })
         }
     }
@@ -72,7 +75,7 @@ class SignUp extends Component {
         if (redirect) {
             return <Redirect to="/listings" />
         }
-        
+
         return (
             <div className="col-md-6 forms">
                 <h2>Join SOLEd Now!</h2>
@@ -101,5 +104,17 @@ class SignUp extends Component {
         )
     }
 }
- 
-export default SignUp
+
+const mapStateToProps = state => {
+    return {
+        userInSession: state.loggedInUser,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        sendUserObjToRedux: loggedInUser => dispatch(setLoginSession(loggedInUser)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

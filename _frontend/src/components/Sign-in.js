@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import { setLoginSession } from '../redux/actions'
 import axios from 'axios'
 
 
@@ -21,24 +23,23 @@ class SignIn extends Component {
             var urlString = this.state.verifyLogin + '+' + this.state.verifyPassword
             axios.get('http://localhost:5000/soled/user/login/' + urlString)
                 .then(response => {
-                    this.setState({
-                        loggedInUser: response.data
-                    })
                     if (response.status == 200) {
+                        this.setState({
+                            loggedInUser: response.data
+                        })
+                        this.props.sendUserObjToRedux(this.state.loggedInUser);
                         var userId = { userId: this.state.loggedInUser.id }
                         axios.post('http://localhost:5000/soled/user/login/', userId)
-                        .then(response => {
-                            console.log("successful login");
-                            this.setState({
-                                redirect: true
+                            .then(response => {
+                                console.log("successful login");
+                                this.setState({
+                                    redirect: true
+                                })
                             })
-                        })
                     } else {
                         alert("Incorrect Email or Password.");
                     }
                 })
-        } else {
-            alert("Please enter correct Email and Password.");
         }
     }
 
@@ -47,8 +48,6 @@ class SignIn extends Component {
         if (redirect) {
             return <Redirect to="/listings" />
         }
-
-        
         // if (redirect && this.props.eventLastViewed.length != 0) {
         //     return <Redirect to={this.joinEventUrl()} />
         // } else if (redirect) {
@@ -78,4 +77,16 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn
+const mapStateToProps = state => {
+    return {
+        userInSession: state.loggedInUser,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        sendUserObjToRedux: loggedInUser => dispatch(setLoginSession(loggedInUser)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
