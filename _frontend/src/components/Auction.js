@@ -28,19 +28,13 @@ class Auction extends Component {
     
 
     render() { 
-        return ( 
-<<<<<<< HEAD
-            <div>
-=======
+        return (
             <div className="container-fluid">                
                 <div className="container">
                 {/* { Array 0 is the auction Array 1 is the sneaker } */}
                 { this.state.auction.minPrice }
                     {this.props.viewItems[1].brand }
-                
                 </div>
-               
->>>>>>> 1d405cb4e54e3386e2914eee7e6537b269e2d7dc
             </div>
          )
     }
