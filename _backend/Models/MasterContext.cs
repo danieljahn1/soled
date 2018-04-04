@@ -9,6 +9,7 @@ namespace soled_backend
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<LogInSession> LoggedInUserId { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Sneaker> Sneakers { get; set; }
         public DbSet<Auction> Auctions { get; set; }

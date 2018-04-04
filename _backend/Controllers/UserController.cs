@@ -23,7 +23,6 @@ namespace soled_backend
 
             _context.SaveChanges();
             }
-
         }
 
         [HttpGet]
@@ -32,28 +31,28 @@ namespace soled_backend
             return _context.Users.ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public User GetUserById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("email/{email}")]
         public User GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("username/{username}")]
         public User GetUserByUsername(string username)
         {
             return _context.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        [HttpGet("{email}+{password}")]
-        public User GetUserByEmailPassword(string email, string password)
+        [HttpGet("login/{login}+{password}")]
+        public User GetUserByLoginPassword(string login, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            return _context.Users.FirstOrDefault(u => (u.Email == login || u.Username == login) && u.Password == password);
         }
 
         [HttpPost]
