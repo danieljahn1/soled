@@ -20,7 +20,7 @@ class SignIn extends Component {
 
     getUsers() {
         axios.get('http://localhost:5000/soled/user')
-            .then(response =>{
+            .then(response => {
                 this.setState({
                     usersArr: response.data
                 })
@@ -35,14 +35,18 @@ class SignIn extends Component {
             var urlString = this.state.verifyLogin + '+' + this.state.verifyPassword
             axios.get('http://localhost:5000/soled/user/login/' + urlString)
                 .then(response => {
-                    console.log(urlString)
+                    this.setState({
+                        user: response.data
+                    })
+                    console.log(this.state.user);
+                    console.log(response.status);
                 })
         }
     }
 
     render() {
         const { redirect } = this.state;
-            
+
         return (
             <div className="col-md-6 forms">
                 <h2>Sign in to sell your soles</h2>
