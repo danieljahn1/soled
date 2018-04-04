@@ -17,8 +17,8 @@ namespace soled_backend
 
             if (_context.Bids.Count() == 0)
             {
-                _context.Bids.Add(new Bid(1, 2, 26, DateTime.Parse("2018-04-01 12:00:00")));
-                _context.Bids.Add(new Bid(1, 3, 27, DateTime.Parse("2018-04-01 12:30:00")));
+                _context.Bids.Add(new Bid(1, 2, 510, DateTime.Parse("2018-04-01 12:00:00")));
+                _context.Bids.Add(new Bid(1, 3, 530, DateTime.Parse("2018-04-01 12:30:00")));
                 _context.Bids.Add(new Bid(2, 3, 50, DateTime.Parse("2018-04-03 14:24:00")));
                 _context.Bids.Add(new Bid(2, 1, 65, DateTime.Parse("2018-04-03 14:44:00")));
                
@@ -37,6 +37,12 @@ namespace soled_backend
         public Bid GetBid(int id)
         {
             return _context.Bids.FirstOrDefault(c => c.Id == id);
+        }
+
+        [HttpGet("auctionId/{auctionId}")]
+        public List<Bid> GetAuctionBids(int auctionId)
+        {
+            return _context.Bids.Where(c => c.AuctionId == auctionId).ToList();
         }
 
         [HttpPost]
