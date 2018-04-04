@@ -1,0 +1,26 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+  }
+
+  
+
+/* EM styles */
+  .auctionSections {
+      margin: 10px 0;
+      background-color: lightgray;
+      padding: 5px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .endAuction {
+      margin-right: 15px;
+      font-size: 18px;
+      font-weight: bold;
+  }
+
+
+
+/* End EM styles */
