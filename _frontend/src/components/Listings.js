@@ -47,7 +47,7 @@ class Listings extends React.Component {
                                     <img src={ item.sneakerPics[0].path } className="img-responsive" width="250" />
                                 </div>
                                 <div className="row col-md-8">
-                                    <Link to={'/auction/' + aucItem.id} onClick={ this.auctionItemToRedux.bind(this, aucItem) }>
+                                    <Link to={'/auction/' + aucItem.id}>
                                     { item.brand } { item.model} { item.style } { item.version}
                                     &nbsp;Size&nbsp;{ item.size } 
                                     </Link>
@@ -77,14 +77,15 @@ class Listings extends React.Component {
 
     }
 
-    auctionItemToRedux(auction, e) {
-        // Get the sneaker associated with the auction
-        var viewSneaker = this.state.sneakers.filter(item => item.id == auction.sneakerId)[0]
-        // console.log([auction, viewSneaker]);
+    // auctionItemToRedux(auction, e) {
+    //      //onClick={ this.auctionItemToRedux.bind(this, aucItem) }
+    //     // Get the sneaker associated with the auction
+    //     var viewSneaker = this.state.sneakers.filter(item => item.id == auction.sneakerId)[0]
+    //     // console.log([auction, viewSneaker]);
 
-        // Set the auction and the sneaker to redux. Array 0 is the auction Array 1 is the sneaker
-        this.props.setViewAuctionItem([auction, viewSneaker]);
-    }
+    //     // Set the auction and the sneaker to redux. Array 0 is the auction Array 1 is the sneaker
+    //     this.props.setViewAuctionItem([auction, viewSneaker]);
+    // }
 
     formatDate(d) {
         // Format the date from yyyy-mm-dd into MM/dd/yyyy for display

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -8,52 +9,80 @@ class Auction extends Component {
         super(props);
 
         this.state = {
+            redirect: false,
+            auction: {},
+            sneaker: {},
             seller: {},
             bids: [],
             bidInput: ""      
         }
     }
 
-    componentDidMount() {        
-        // Get the seller of the auction
-        axios.get('http://localhost:5000/soled/user/id/' + this.props.viewItems[0].sellerId)
-        .then (response => {
-            // console.log(response.data);
-
-            this.setState({
-                seller: response.data
-            })
-        })
-        
-        // Get the bids of the auction  http://localhost:5000/soled/bid/auctionId/
-        axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.viewItems[0].id)
+    componentDidMount() {
+        // Get the auction data
+        axios.get('http://localhost:5000/soled/auction/' + this.props.match.params.auctionId) 
             .then (response => {
-                // console.log(response.data);
+                console.log(response.data);
+                if (response.status == 200) {
+                    this.setState({
+                        auction: response.data
+                    })
 
-                this.setState({
-                    bids: response.data
-                })
-            })
+                    // Get the sneaker associated with the auction
+                    axios.get('http://localhost:5000/soled/sneaker/' + this.state.auction.sneakerId)
+                        .then (sneakerResponse => {
+                            console.log(sneakerResponse.data);
+                            console.log(sneakerResponse.data.sneakerPics);
+                            this.setState({
+                                sneaker: sneakerResponse.data
+                            })
+                        })
 
-        // Check if the auction has a max price. If it doesn't then hide the End Auction button
-        if (this.props.viewItems[0].maxPrice > 0) {
-            document.getElementById("btnEndAuction").style.display = '';
-        }
-        else {
-            document.getElementById("btnEndAuction").style.display = 'none';
-        }
+                    // Get the seller of the auction
+                    axios.get('http://localhost:5000/soled/user/id/' + this.state.auction.sellerId)
+                    .then (sellerResponse => {
+                        // console.log(sellerResponse.data);
+
+                        this.setState({
+                            seller: sellerResponse.data
+                        })
+                    })
+
+                    // Get the bids of the auction
+                    axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
+                    .then (bidResponse => {
+                        // console.log(bidResponse.data);
+
+                        this.setState({
+                            bids: bidResponse.data
+                        })
+                    })
+
+                }
+                
+            })            
 
     }
     
 
     render() { 
+        // const { redirect } = this.state;
+        // if (redirect) {
+        //     // If the user is not logged in, redirect them to the signup page
+        //     return <Redirect to="/signin" />
+        // }
         return (
+            
             <div className="container-fluid">                
                 <div className="container">
-                {/* { this.props.viewItems: Array 0 is the auction. Array 1 is the sneaker } */}
+                
                     <div className="col-md-3">
-                        <div className="row">
-                            <img src={ this.props.viewItems[1].sneakerPics[0].path } className="img-responsive" width="400" />
+                        <div className="row">   
+                        
+                           { this.state.sneaker.sneakerPics != undefined &&
+                             (<img src={ this.state.sneaker.sneakerPics[0].path } className="img-responsive" width="400" />
+                             )
+                            }
                         </div>
                         <div className="row auctionSections">
                             <p>&nbsp;</p>
@@ -62,42 +91,86 @@ class Auction extends Component {
                         </div>
                     </div>
                     <div className="col-md-8">
-                        <div className="row auctionSections">
-                            <h3>Model: { this.props.viewItems[1].model }</h3>
-                            <h3>Brand: { this.props.viewItems[1].brand }</h3>
-                            <h3>Version: { this.props.viewItems[1].version }</h3>
-                            <h3>Size:  { this.props.viewItems[1].size }</h3>
+                        <div className="row auctionSections auctionSectionHeader">
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Model:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.model }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Brand:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.brand }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Version:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.version }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Size:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.size }</div>
+                            </div>
+                            
+                        </div>
+                        <div className="row auctionSections">                            
+                            <p>Started on: { 
+                                this.state.auction.startDate != undefined &&
+                                (
+                                this.formatDate(this.state.auction.startDate )
+                            )
+                            }</p>
+                            <p>Ends on: { 
+                                this.state.auction.startDate != undefined &&
+                                (
+                                    this.formatDate(this.state.auction.endDate )
+                            )
+                            }</p>
                         </div>
                         <div className="row auctionSections">
-                            <p>Started on: { this.formatDate(this.props.viewItems[0].startDate) }</p>
-                            <p>Ends on: { this.formatDate(this.props.viewItems[0].endDate) }</p>
-                        </div>
-                        <div className="row auctionSections">
-                            <h5>Start Price: ${ this.props.viewItems[0].minPrice }</h5>
-                            <span className="endAuction">End Auction Price: { (this.props.viewItems[0].maxPrice > 0) ? "$" + this.props.viewItems[0].maxPrice : "N/A" } </span>
-                            <button id="btnEndAuction" className="btn btn-danger btn-sm">End the Auction</button>                    
+                            <h5><strong>Start Price</strong>: ${ this.state.auction.minPrice }</h5>
+                            {
+                                (this.state.auction.maxPrice > 0)
+                                ?
+                                <div>
+                                <span className="endAuction">End Auction Price: { (this.state.auction.maxPrice > 0) ? "$" + this.state.auction.maxPrice : "N/A" } </span>
+                                <button id="btnEndAuction" className="btn btn-danger btn-sm">End the Auction</button>
+                                </div>
+                                :
+                                <div>                                
+                                </div>
+                            }
+                                              
                         </div>
                         <div className="row auctionSections">
                             <div className="row">
                                 <div className="col-md-8">
                                     <h4>Current Bid: { (this.getHighestBid() > 0) ? "$" + this.getHighestBid() : "Be the first person to bid!"  }</h4>
                                 </div>
-                                <div className="col-md-4">
-                                 { ( this.state.bids.length > 0 ) ? "Number of Bids: " +  this.state.bids.length : "" }
+                                <div className="col-md-4 numBids">
+                                 { ( this.state.bids.length > 0 ) ? "Number of Bids: " +  this.state.bids.length : "" }                                 
                                 </div>
                             </div>
                             
                             
                             <div className="col-xs-2">
-                            <input type="text" className="form-control" id="txtBid" onChange={ e => this.setState({   bidInput: e.target.value })  } />
+                                <input type="number" className="form-control" id="txtBid" onChange={ e => this.setState({   bidInput: e.target.value })  } />
                             </div> 
-                            <button id="btnPlaceBid" className="btn btn-primary btn-sm" onClick={ this.placeBid() }>Place Your Bid</button>
+                            
+                            <button id="btnPlaceBid" className="btn btn-primary btn-sm" onClick={ this.placeBid.bind(this) }>Place Your Bid</button>
+                            { ( this.state.bids.length > 0 ) 
+                                 ?  
+                                    <div>
+                                        <p className="bidDirections">Enter ${ this.getHighestBid() + 1 } or higher</p>                                    
+                                    </div>
+                                 : 
+                                    <div>
+                                        <p className="bidDirections">Enter ${ this.state.auction.minPrice } or higher</p>  
+                                    </div>
+                            }
                         </div>
                         <div className="row">
                             <h4>Description:</h4>
-                            { this.props.viewItems[1].description }
+                            { this.state.sneaker.description }
                         </div>
-                    </div>                    
+                    </div>               
                
                     
                 
@@ -108,6 +181,40 @@ class Auction extends Component {
 
     placeBid() {
         // Check the bid entry
+
+        // Get the highest bid amount
+        var highestBid = this.getHighestBid();
+        
+        if (highestBid == 0) {
+            // No bids exist, use the minPrice of the auction
+            highestBid = this.state.auction.minPrice;
+        }
+        else {
+            // Bid exists. Add one to it for the next "eligible" bid amount
+            highestBid += 1; 
+        }
+
+        if (this.state.bidInput == "") {
+            // Make sure the bid amount is not empty
+            alert("Please enter a bid amount.");
+        }
+        else if (this.state.bidInput < highestBid) {
+            // Make sure the bid is not lower than the current amount (+ 1)
+            alert("Your bid is too low. Please enter a bid of at least $" + highestBid + ".");
+        }
+        else {
+            // console.log(this.state.bidInput);
+
+            // Bid amount is verified. Enter the bid for the user
+
+            // Make sure user is logged in
+            if (this.props.loggedInUser.length > 0) {
+                // User is logged in. Place the bid.
+            }
+            else {
+                // Anonymous user. Direct them to sign in
+            }
+        }
     }
     
 
@@ -149,7 +256,8 @@ class Auction extends Component {
 
 const MapStateToProps = state => {
     return {
-        viewItems: state.viewItems
+        viewItems: state.viewItems,
+        loggedInUser: state.loggedInUser
     }
 }
 
