@@ -8,26 +8,12 @@ class SignIn extends Component {
         super(props)
 
         this.state = {
+            loggedInUser: '',
             verifyLogin: '',
             verifyPassword: '',
             redirect: false,
         }
     }
-
-    componentDidMount() {
-        this.getUsers();
-    }
-
-    getUsers() {
-        axios.get('http://localhost:5000/soled/user')
-            .then(response => {
-                this.setState({
-                    usersArr: response.data
-                })
-                console.log(this.state.usersArr);
-            })
-    }
-
 
     userSignIn(e) {
         if (this.state.verifyLogin != '' && this.state.verifyPassword != '') {
@@ -36,16 +22,38 @@ class SignIn extends Component {
             axios.get('http://localhost:5000/soled/user/login/' + urlString)
                 .then(response => {
                     this.setState({
-                        user: response.data
+                        loggedInUser: response.data
                     })
-                    console.log(this.state.user);
-                    console.log(response.status);
+                    if (response.status == 200) {
+                        var userId = { userId: this.state.loggedInUser.id }
+                        axios.post('http://localhost:5000/soled/user/login/', userId)
+                        .then(response => {
+                            console.log("successful login");
+                            this.setState({
+                                redirect: true
+                            })
+                        })
+                    } else {
+                        alert("Incorrect Email or Password.");
+                    }
                 })
+        } else {
+            alert("Please enter correct Email and Password.");
         }
     }
 
     render() {
         const { redirect } = this.state;
+        if (redirect) {
+            return <Redirect to="/listings" />
+        }
+
+        
+        // if (redirect && this.props.eventLastViewed.length != 0) {
+        //     return <Redirect to={this.joinEventUrl()} />
+        // } else if (redirect) {
+        //     return <Redirect to="/welcome" />
+        // }
 
         return (
             <div className="col-md-6 forms">
