@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -34,7 +33,6 @@ class SignIn extends Component {
                 <div className="col-md-12">
                     <div className="pull-right">
                         <span>Don't have an account?</span>
-                        {/* <Link to="/signup"><button className="btn btn-link">Sign Up</button></Link> */}
                     </div>
                     <form>
                         <div className="form-group">
