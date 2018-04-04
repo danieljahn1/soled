@@ -15,27 +15,15 @@ class Auction extends Component {
     }
 
     componentDidMount() {        
-        // Get the auction
-        axios.get('http://localhost:5000/soled/auction/' + this.props.match.params.auctionId)
-            .then( response => {
-                // console.log(response.data);
+        // Get the seller of the auction
+        axios.get('http://localhost:5000/soled/user/id/' + this.props.viewItems[0].sellerId)
+        .then (response => {
+            // console.log(response.data);
 
-                this.setState({
-                    auction: response.data
-                })
+            this.setState({
+                seller: response.data
             })
-        
-        // Get the seller
-
-        // Get the sneaker from the auction
-        // axios.get('http://localhost:5000/soled/sneaker/' + this.state.auction.sneakerId)
-        // .then (response => {
-        //     console.log(response.data);
-
-        //     this.setState({
-        //         sneaker: response.data
-        //     })
-        // })            
+        })            
     }
     
 
@@ -43,9 +31,7 @@ class Auction extends Component {
         return ( 
             <div className="container-fluid">                
                 <div className="container">
-                { 
-                    // Array 0 is the auction Array 1 is the sneaker
-                }
+                {/* { Array 0 is the auction Array 1 is the sneaker } */}
                 { this.state.auction.minPrice }
                     {this.props.viewItems[1].brand }
                 

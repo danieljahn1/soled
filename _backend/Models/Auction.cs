@@ -12,6 +12,7 @@ namespace soled_backend
         public double MinPrice  { get; set; }
         public double MaxPrice  { get; set; }
         public int WinnerId { get; set; }
+        public bool CompletePayment { get; set; }
 
         public Auction()
         {
@@ -25,6 +26,7 @@ namespace soled_backend
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.MinPrice = minPrice;
+            this.CompletePayment = false;
         }
     }
 

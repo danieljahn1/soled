@@ -19,7 +19,7 @@ class Listings extends React.Component {
         // Get all sneakers
         axios.get('http://localhost:5000/soled/sneaker')
             .then(response => {
-                console.log(response.data);
+                // console.log(response.data);
 
                 this.setState({
                     sneakers: response.data
@@ -84,7 +84,7 @@ class Listings extends React.Component {
     auctionItemToRedux(auction, e) {
         // Get the sneaker associated with the auction
         var viewSneaker = this.state.sneakers.filter(item => item.id == auction.sneakerId)[0]
-        // console.log([auction, viewSneaker]);
+        console.log([auction, viewSneaker]);
 
         // Set the auction and the sneaker to redux. Array 0 is the auction Array 1 is the sneaker
         this.props.setViewAuctionItem([auction, viewSneaker]);
