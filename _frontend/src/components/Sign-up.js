@@ -70,13 +70,6 @@ class SignUp extends Component {
     }
 
     render() {
-        // const { redirect } = this.state;
-        // if (redirect && this.props.eventLastViewed.length != 0) {
-        //     return <Redirect to={this.joinEventUrl()} />
-        //     } else if (redirect) {
-        //         return <Redirect to="/welcome" />
-        //     }
- 
         return (
             <div className="col-md-6 forms">
                 <h2>Join SOLEd Now!</h2>

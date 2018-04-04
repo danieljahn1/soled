@@ -18,7 +18,7 @@ class Container extends Component {
         return (
             <div className="container-fluid">
                 <div className="nav-bar-div">
-                    {/* <NavBar /> */}
+                    <NavBar />
                     {/* <SignUp/> */}
                     {/* <SignIn/> */}
                 </div>

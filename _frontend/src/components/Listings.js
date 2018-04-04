@@ -9,7 +9,8 @@ class Listings extends React.Component {
 
         this.state = {
             sneakers: [],
-            auctions: []
+            auctions: [],
+            viewAuction: []
         }
     }
 
@@ -41,35 +42,35 @@ class Listings extends React.Component {
                 All Sneaker Auction Listings                
                 {
                     this.state.sneakers.map( item => 
-                    
-                    <div className="panel panel-default" key={ item.id }>
-                        <div className="panel-body">
-                            <div className="col-md-3">
-                                <img src={ item.sneakerImage } className="img-responsive" width="250" />
-                            </div>
-                            <div className="row col-md-8">
-                                <Link to="/auction" onClick={this.viewItem.bind(this)}>
-                                { item.brand } { item.model} { item.style } { item.version}
-                                &nbsp;Size&nbsp;{ item.size } 
-                                </Link>
-                            </div>
-                            <div className="row col-md-8">                            
-                            {
-                                this.state.auctions.filter(auc => auc.sneakerId == item.id )
-                                .map( aucItem => (
-                                    <div key={aucItem.id}>
-                                        <strong>${ aucItem.minPrice }</strong>
-                                        <p>Starts at: {this.formatDate(aucItem.startDate)}&nbsp;&nbsp;
-                                        Ends at: {this.formatDate(aucItem.endDate)}</p>
-                                    </div>
-                                )
+                    this.state.auctions.filter(auc => auc.sneakerId == item.id )
+                    .map( aucItem => 
+                        <div className="panel panel-default" key={ item.id }>
+                            <div className="panel-body">
+                                <div className="col-md-3">
+                                    <img src={ item.sneakerPics[0].path } className="img-responsive" width="250" />
+                                </div>
+                                <div className="row col-md-8">
+                                    <Link to="/auction" onClick={this.viewItem.bind(this, aucItem)}>
+                                    { item.brand } { item.model} { item.style } { item.version}
+                                    &nbsp;Size&nbsp;{ item.size } 
+                                    </Link>
+                                </div>
+                                <div className="row col-md-8">                            
+                                {
                                     
-                                )
-                            }
-                            </div>
-                                
-                        </div> 
-                    </div>                                                  
+                                        <div key={aucItem.id}>
+                                            <strong>${ aucItem.minPrice }</strong>
+                                            <p>Starts at: {this.formatDate(aucItem.startDate)}&nbsp;&nbsp;
+                                            Ends at: {this.formatDate(aucItem.endDate)}</p>
+                                        </div>
+
+                                    
+                                }
+                                </div>
+                                    
+                            </div> 
+                        </div>
+                    )
                     )
                 }
                     
@@ -79,8 +80,16 @@ class Listings extends React.Component {
 
     }
 
-    viewItem() {
-        alert("testing");
+    viewItem(auction, e) {
+        // Set the item to be viewed to state
+        console.log(auction, auction.sneakerId);
+
+        // Filter the sneaker's to find the one associated with the auction
+        var viewSneaker = this.state.sneakers.filter(item => item.Id == auction.sneakerId);
+        console.log(viewSneaker);
+        // this.setState({
+        //     viewAuction: this.state.
+        // })
     }
 
     formatDate(d) {

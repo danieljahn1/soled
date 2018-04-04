@@ -15,15 +15,6 @@ class Home extends Component {
         <div className="container">
             List featured shoes on the home page.
         </div>
-        // if (this.props.loggedInUser.length == 0) {
-        //     return (
-        //         <NavAnon />
-        //     )
-        // } else {
-        //     return (
-        //         <NavKnown />
-        //     )
-        // }
 
         )
         
