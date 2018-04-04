@@ -19,7 +19,8 @@ class NavBar extends Component {
                     <nav id="nav-bar">
                         <h1>Soled</h1>
                         <Link to="/">Home</Link> | 
-                        <Link to="/listings">View All Shoes</Link>
+                        <Link to="/listings">View All Shoes</Link> |
+                        <Link to="/signin">Sign In</Link>
                         <Menu />
                     </nav>
                 </div>

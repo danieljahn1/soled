@@ -53,23 +53,26 @@ class SignUp extends Component {
             }
             axios.post('http://localhost:5000/soled/user', body)
                 .then(response => {
+                    axios.get('http://localhost:5000/soled/user/email/' + this.state.addEmail)
+                        .then(response => {
+                            var userId = { userId: response.data.id }
+                            console.log(response.data.id)
+                            console.log(userId)
+                            axios.post('http://localhost:5000/soled/user/login/', userId)
+                        })
                     this.setState({
-                        addUsername: '',
-                        addEmail: '',
-                        addPassword: '',
-                        addAddress1: '',
-                        addAddress2: '',
-                        addCity: '',
-                        addState: '',
-                        addZipCode: '',
-                        addCountry: '',
-                        addImgUrl: ''
+                        redirect: true
                     })
                 })
         }
     }
 
     render() {
+        const { redirect } = this.state;
+        if (redirect) {
+            return <Redirect to="/listings" />
+        }
+        
         return (
             <div className="col-md-6 forms">
                 <h2>Join SOLEd Now!</h2>
