@@ -78,12 +78,22 @@ const initialState = {
             description:'We’re happy to say, even six years later, that the Bodega entry into the Saucony Elite series, the suede, color-blocked Shadow 5000 remains a coveted property.  As part of our ongoing tenth anniversary celebrations, the cavernous Bodega vaults have been entered, a la Tomb Raiders or Indiana Jones, and combed through.  Intrepid explorers have returned to the surface with the Saucony Elite Shadow 5000.',
             sneakerImage:'https://www.kixify.com/product/bodega-x-saucony-elite-shadow-5000-0',
         },
-    ]
+    ],
+    viewItems: [{}]
 }
 
 const rootReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case ("VIEW_ITEM"):
+            state = {
+                ...state,
+                viewItems: action.payload
+            }
+            break;
 
-
+    }
+    
+    return state;
 }
 
 export default rootReducer;
