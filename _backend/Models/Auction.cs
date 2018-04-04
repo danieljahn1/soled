@@ -19,13 +19,14 @@ namespace soled_backend
 
         }
 
-        public Auction(int sneakerId, int sellerId, DateTime startDate, DateTime endDate, double minPrice)
+        public Auction(int sneakerId, int sellerId, DateTime startDate, DateTime endDate, double minPrice, double maxPrice)
         {
             this.SneakerId = sneakerId;
             this.SellerId = sellerId;
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.MinPrice = minPrice;
+            this.MaxPrice = maxPrice;
             this.CompletePayment = false;
         }
     }
