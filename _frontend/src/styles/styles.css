@@ -3,3 +3,30 @@
   margin: 0;
   box-sizing: border-box;
 }
+ 
+ul, li{
+    list-style-type: none;
+    display: inline;
+    margin: 90px;
+    padding: 70px;
+    font-size: 25px; 
+    
+}
+.container-fluid { 
+  padding-right:0;padding-left:0;
+}
+#title {
+  font-size: 35px;
+}
+
+div.navbar-header {
+  margin:7px; 
+  margin-bottom:0; 
+}
+#nav{
+  height: 30px;
+}
+#jumbo {
+  height: 280px
+}
+

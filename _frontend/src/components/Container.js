@@ -8,6 +8,8 @@ import SignIn from './Sign-in'
 import UserProfile from './User-profile'
 import Listings from './Listings'
 import Auction from './Auction'
+import NavAnon from './Nav-anon'
+import NavKnown from './Nav-known'
 
 class Container extends Component {
     constructor(props) {
@@ -18,9 +20,11 @@ class Container extends Component {
         return (
             <div className="container-fluid">
                 <div className="nav-bar-div">
-                    <NavBar />
+                    {/* <NavBar /> */}
                     {/* <SignUp/> */}
                     {/* <SignIn/> */}
+                    {/* <NavAnon /> */}
+                    <NavKnown />
                 </div>
             <div className="container-fluid">
                 <Switch>
