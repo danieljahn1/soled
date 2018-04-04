@@ -49,23 +49,23 @@ class UserProfile extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-md-4 text-center">
-                                            <img className="img-circle avatar avatar-original" src={this.props.loggedInUser[0].imageurl} style={{ width: '100px' }} />
+                                            <img className="img-circle avatar avatar-original" src={this.props.person} style={{ width: '100px' }} />
                                         </div>
                                         <div className="col-md-8">
                                             <div className="row">
                                                 <div className="col-md-12" style={{ marginLeft: '50px' }}>
-                                                    <h1 className="only-bottom-margin">{this.props.loggedInUser[0].username}</h1>
+                                                    <h1 className="only-bottom-margin">{this.props.username}</h1>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-6" style={{ marginLeft: '50px' }}>
-                                                    <span>Address1: </span><b>{this.props.loggedInUser[0].address1}</b><br />
-                                                    <span>Address2: </span><b>{this.props.loggedInUser[0].address2}</b><br />
-                                                    <span>City: </span><b>{this.props.loggedInUser[0].city}</b><br />
-                                                    <span>State: </span><b>{this.props.loggedInUser[0].state}</b><br />
-                                                    <span>Zip: </span><b>{this.props.loggedInUser[0].zip}</b><br />
-                                                    <span>Country: </span><b>{this.props.loggedInUser[0].country}</b><br />
-                                                    <span>Email: </span><b>{this.props.loggedInUser[0].email}</b><br />
+                                                    <span>Address1: </span><b>{this.props.address1}</b><br />
+                                                    <span>Address2: </span><b>{this.props.address2}</b><br />
+                                                    <span>City: </span><b>{this.props.city}</b><br />
+                                                    <span>State: </span><b>{this.props.state}</b><br />
+                                                    <span>Zip: </span><b>{this.props.zip}</b><br />
+                                                    <span>Country: </span><b>{this.props.country}</b><br />
+                                                    <span>Email: </span><b>{this.props.email}</b><br />
                                                     <span>Password: </span><b>************</b><br />
                                                 </div>
                                             </div>

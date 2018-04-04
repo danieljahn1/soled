@@ -47,11 +47,7 @@ class Auction extends Component {
     
 
     render() { 
-<<<<<<< HEAD
-        return ( 
-=======
         return (
->>>>>>> 22a24825b3c742afe024df9558e32488830a2a6e
             <div className="container-fluid">                
                 <div className="container">
                 {/* { this.props.viewItems: Array 0 is the auction. Array 1 is the sneaker } */}
@@ -106,10 +102,6 @@ class Auction extends Component {
                     
                 
                 </div>
-<<<<<<< HEAD
-               
-=======
->>>>>>> 22a24825b3c742afe024df9558e32488830a2a6e
             </div>
          )
     }
