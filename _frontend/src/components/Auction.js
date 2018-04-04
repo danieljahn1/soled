@@ -20,7 +20,7 @@ class Auction extends Component {
     render() { 
         return ( 
             <div>
-             </div>
+            </div>
          )
     }
 }
