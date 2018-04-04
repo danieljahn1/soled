@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 
 class UserProfile extends Component {
     constructor(props) {
@@ -18,6 +20,21 @@ class UserProfile extends Component {
                 country:'',
             }
           }
+    }
+    editUserProfile(){
+        return (
+            <div>
+                <p>Edit</p>
+                <button onClick={this.person.edit}>Edit</button>
+            </div>
+        )
+    }
+    saveUserProfile(){
+        return (
+            <div>
+                
+            </div>
+        )
     }
     render() { 
         return ( 
@@ -63,5 +80,10 @@ class UserProfile extends Component {
          )
     }
 }
+const mapStateToProps = state => {
+    return {
+        userInSession: state.loggedInUser,
+    }
+}
  
-export default UserProfile;
+export default connect(mapStateToProps)(UserProfile);
