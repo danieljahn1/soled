@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -70,20 +70,13 @@ class SignUp extends Component {
     }
 
     render() {
-        // const { redirect } = this.state;
-        // if (redirect && this.props.eventLastViewed.length != 0) {
-        //     return <Redirect to={this.joinEventUrl()} />
-        //     } else if (redirect) {
-        //         return <Redirect to="/welcome" />
-        //     }
- 
         return (
             <div className="col-md-6 forms">
                 <h2>Join SOLEd Now!</h2>
                 <div className="col-md-12">
                     <div className="pull-right">
                         <span>Already have an account?</span>
-                        {/* <Link to="/signin"><button className="btn btn-link">Sign In</button></Link> */}
+                        <Link to="/signin"><button className="btn btn-link">Sign In</button></Link>
                     </div>
                     <form>
                         <div className="form-group">

@@ -27,16 +27,4 @@ class NavKnown extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         loggedInUser: state.loggedInUser,
-//     }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         sendToRedux: logOutUser => dispatch(userLogOut(logOutUser)),
-//     }
-// }
-
 export default NavKnown;

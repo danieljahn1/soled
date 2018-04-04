@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -8,37 +8,56 @@ class SignIn extends Component {
         super(props)
 
         this.state = {
-            verifyEmail: '',
+            verifyLogin: '',
             verifyPassword: '',
             redirect: false,
         }
     }
 
+    componentDidMount() {
+        this.getUsers();
+    }
+
+    getUsers() {
+        axios.get('http://localhost:5000/soled/user')
+            .then(response => {
+                this.setState({
+                    usersArr: response.data
+                })
+                console.log(this.state.usersArr);
+            })
+    }
+
+
     userSignIn(e) {
-        if (this.state.verifyEmail != '' && this.state.verifyPassword != '') {
+        if (this.state.verifyLogin != '' && this.state.verifyPassword != '') {
             e.preventDefault();
-            var stringUrl = this.state.verifyEmail + '+' + this.state.verifyPassword
-            axios.get('http://localhost:5000/soled/user/' + stringUrl)
+            var urlString = this.state.verifyLogin + '+' + this.state.verifyPassword
+            axios.get('http://localhost:5000/soled/user/login/' + urlString)
                 .then(response => {
-                    console.log(stringUrl)
+                    this.setState({
+                        user: response.data
+                    })
+                    console.log(this.state.user);
+                    console.log(response.status);
                 })
         }
     }
 
     render() {
         const { redirect } = this.state;
-            
+
         return (
             <div className="col-md-6 forms">
                 <h2>Sign in to sell your soles</h2>
                 <div className="col-md-12">
                     <div className="pull-right">
                         <span>Don't have an account?</span>
-                        {/* <Link to="/signup"><button className="btn btn-link">Sign Up</button></Link> */}
+                        <Link to="/signup"><button className="btn btn-link">Sign Up</button></Link>
                     </div>
                     <form>
                         <div className="form-group">
-                            <input type="email" className="form-control" id="email" autoComplete="email" placeholder="Email" value={this.state.verifyEmail} onChange={(e) => { this.setState({ verifyEmail: e.target.value }) }} required />
+                            <input type="text" className="form-control" id="email" autoComplete="email" placeholder="Email or Username" value={this.state.verifyLogin} onChange={(e) => { this.setState({ verifyLogin: e.target.value }) }} required />
                         </div>
                         <div className="form-group">
                             <input type="password" className="form-control" id="password" autoComplete="current-password" placeholder="Password" value={this.state.verifyPassword} onChange={(e) => { this.setState({ verifyPassword: e.target.value }) }} required />

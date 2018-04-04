@@ -17,7 +17,7 @@ namespace soled_backend
 
         public Sneaker()
         {
-            this.SneakerPics = new List<SneakerImage>();
+            // this.SneakerPics = new List<SneakerImage>();
         }
 
         public Sneaker(string brand, string size, string model, string style, string version, string condition)
