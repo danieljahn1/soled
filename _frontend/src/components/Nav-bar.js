@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-// import { connect } from 'react-redux'
 import Menu from './menu'
 
 
@@ -56,6 +55,17 @@ class NavBar extends Component {
         // const mapStateToProps = state => {
         //     return {
         //         loggedInUser: state.loggedInUser,
+            return (
+                <div className="container-fluid col-md-12">
+                    <nav id="nav-bar">
+                        <h1>Soled</h1>
+                        <Link to="/">Home</Link> | 
+                        <Link to="/listings">View All Shoes</Link> |
+                        <Link to="/signin">Sign In</Link>
+                        <Menu />
+                    </nav>
+                </div>
+            )
     }
 
 }

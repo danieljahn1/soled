@@ -24,9 +24,9 @@ class NavKnown extends Component {
                 <div className="navbar-header">
                     <a className="navbar-brand" id="title" href="#">SOLEd</a>
                     <ul className="section-nav">
-                        <Link to="/listings">< li className="toc-entry toc-h2"><a href="#classes">SNEAKERS</a></li></Link>
-                        <Link to="/signin">< li className="toc-entry toc-h2"><a href="#mixins">SIGN IN</a></li></Link>
-                        <Link to="/">< li className="toc-entry toc-h2"><a href="#responsive">LOG OUT</a></li></Link>
+                        <Link to="/listings">< li className="toc-entry toc-h2">SNEAKERS</li></Link>
+                        <Link to="/signin">< li className="toc-entry toc-h2">SIGN IN</li></Link>
+                        <Link to="/">< li className="toc-entry toc-h2">LOG OUT</li></Link>
                     </ul>
                 </div>
             </div>
@@ -39,17 +39,5 @@ class NavKnown extends Component {
         )
     }
 }
-
-// const mapStateToProps = state => {
-//     return {
-//         loggedInUser: state.loggedInUser,
-//     }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         sendToRedux: logOutUser => dispatch(userLogOut(logOutUser)),
-//     }
-// }
 
 export default NavKnown;

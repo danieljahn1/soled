@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-// import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Link, Redirect } from 'react-router-dom'
+import { setLoginSession } from '../redux/actions'
 import axios from 'axios'
 
 
@@ -28,7 +30,7 @@ class SignUp extends Component {
 
     getUsers() {
         axios.get('http://localhost:5000/soled/user')
-            .then(response =>{
+            .then(response => {
                 this.setState({
                     usersArr: response.data
                 })
@@ -53,37 +55,34 @@ class SignUp extends Component {
             }
             axios.post('http://localhost:5000/soled/user', body)
                 .then(response => {
-                    this.setState({
-                        addUsername: '',
-                        addEmail: '',
-                        addPassword: '',
-                        addAddress1: '',
-                        addAddress2: '',
-                        addCity: '',
-                        addState: '',
-                        addZipCode: '',
-                        addCountry: '',
-                        addImgUrl: ''
-                    })
+                    axios.get('http://localhost:5000/soled/user/email/' + this.state.addEmail)
+                        .then(response => {
+                            this.props.sendUserObjToRedux(response.data);
+                            var userId = { userId: response.data.id }
+                            axios.post('http://localhost:5000/soled/user/login/', userId)
+                                .then(response => {
+                                    this.setState({
+                                        redirect: true
+                                    })
+                                })
+                        })
                 })
         }
     }
 
     render() {
-        // const { redirect } = this.state;
-        // if (redirect && this.props.eventLastViewed.length != 0) {
-        //     return <Redirect to={this.joinEventUrl()} />
-        //     } else if (redirect) {
-        //         return <Redirect to="/welcome" />
-        //     }
- 
+        const { redirect } = this.state;
+        if (redirect) {
+            return <Redirect to="/listings" />
+        }
+
         return (
             <div className="col-md-6 forms">
                 <h2>Join SOLEd Now!</h2>
                 <div className="col-md-12">
                     <div className="pull-right">
                         <span>Already have an account?</span>
-                        {/* <Link to="/signin"><button className="btn btn-link">Sign In</button></Link> */}
+                        <Link to="/signin"><button className="btn btn-link">Sign In</button></Link>
                     </div>
                     <form>
                         <div className="form-group">
@@ -105,5 +104,17 @@ class SignUp extends Component {
         )
     }
 }
- 
-export default SignUp
+
+const mapStateToProps = state => {
+    return {
+        userInSession: state.loggedInUser,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        sendUserObjToRedux: loggedInUser => dispatch(setLoginSession(loggedInUser)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
