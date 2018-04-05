@@ -20,7 +20,8 @@ class NavBar extends Component {
                         <h1>Soled</h1>
                         <Link to="/">Home</Link> | 
                         <Link to="/listings">View All Shoes</Link> |
-                        <Link to="/signin">Sign In</Link>
+                        <Link to="/signin">Sign In</Link> |
+                        <Link to="/create-listing">Create Listing</Link>
                         <Menu />
                     </nav>
                 </div>

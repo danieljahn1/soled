@@ -8,6 +8,7 @@ import SignIn from './Sign-in'
 import UserProfile from './User-profile'
 import Listings from './Listings'
 import Auction from './Auction'
+import CreateListing from './CreateListing'
 
 class Container extends Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class Container extends Component {
                     <NavBar />
                     {/* <SignUp/> */}
                     {/* <SignIn/> */}
+                    {/* <CreateListing /> */}
                 </div>
             <div className="container-fluid">
                 <Switch>
@@ -29,6 +31,7 @@ class Container extends Component {
                     <Route path='/signin' component={SignIn} />
                     <Route path='/userprofile/' component={UserProfile} />
                     <Route path='/listings' component={Listings} />
+                    <Route path='/create-listing' component={CreateListing} />
                     <Route path='/auction/:auctionId' component={Auction} />
                 </Switch>
             </div>
