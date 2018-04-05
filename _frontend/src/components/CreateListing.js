@@ -72,7 +72,6 @@ class CreateListing extends Component {
         axios.post('http://localhost:5000/soled/sneaker', body)
             .then(response => {
                 axios.get('http://localhost:5000/soled/sneaker')
-                console.log(response.data);
                 this.setState({
                     addSneakerId: response.data.id,
                     formB: true
@@ -81,6 +80,7 @@ class CreateListing extends Component {
     }
 
     auctionPublish(e) {
+        if (this.state.addStartDate != '' && this.state.addEndDate != '' && this.state.addMinPrice != '' && this.state.addMaxPrice != '') {
         e.preventDefault();
         var body = {
             sneakerId: this.state.addSneakerId,
@@ -97,6 +97,7 @@ class CreateListing extends Component {
                     redirect: true
                 })
             })
+        }
     }
 
     render() {
@@ -137,7 +138,7 @@ class CreateListing extends Component {
                             </div>
                             <div className="form-group">
                                 {/* <label htmlFor="sneaker-image">Image</label> */}
-                                <input type="text" className="form-control" id="sneaker-image" placeholder="Image URL" value={this.state.addImage1} onChange={(e) => { this.setState({ addImage1: e.target.value }) }} required />
+                                <input type="url" className="form-control" id="sneaker-image" placeholder="Image URL" value={this.state.addImage1} onChange={(e) => { this.setState({ addImage1: e.target.value }) }} required />
                             </div>
                             <div className="form-group">
                                 {/* <label htmlFor="sneaker-condtion"></label> */}
@@ -169,7 +170,7 @@ class CreateListing extends Component {
                                 <div>Condition: {this.state.addCondition}</div>
                                 <div>Description: {this.state.addDescription}</div>
                                 <h1></h1>
-                                <img src={this.state.addImage1} alt="" />
+                                <img src={this.state.addImage1} alt="sneaker image" width="250" />
                                 <h1></h1>
                                 <div>
                                     <button type="submit" className="btn btn-info" onClick={this.sneakerEdit.bind(this)}>Edit Sneaker</button>
@@ -188,10 +189,10 @@ class CreateListing extends Component {
                                 <div>Condition: {this.state.addCondition}</div>
                                 <div>Description: {this.state.addDescription}</div>
                                 <h1></h1>
-                                <img src={this.state.addImage1} alt="" />
+                                <img src={this.state.addImage1} alt="sneaker image" width="250" />
                                 <h1></h1>
                                 <div className="col-md-6 forms">
-                                    <h3>Publish A Auction</h3>
+                                    <h3>Publish An Auction</h3>
                                     <h1></h1>
                                     <form className="col-md-12">
                                         <div className="form-group">
@@ -201,7 +202,6 @@ class CreateListing extends Component {
                                         <div className="form-group">
                                             {/* <label htmlFor="auction-end-date">End Date</label> */}
                                             <input type="date" className="form-control" id="auction-end-date" placeholder="End Date" value={this.state.addEndDate} onChange={(e) => { this.setState({ addEndDate: e.target.value }) }} required />
-                                            {/* <small className="form-text" id="auction-style-help">style of auction</small> */}
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="auction-min-price">Min Price</label> */}
@@ -210,6 +210,7 @@ class CreateListing extends Component {
                                         <div className="form-group">
                                             {/* <label htmlFor="auction-max-price">Max Price</label> */}
                                             <input type="number" className="form-control" id="auction-max-price" placeholder="Max Price" value={this.state.addMaxPrice} onChange={(e) => { this.setState({ addMaxPrice: e.target.value }) }} required />
+                                            {/* <small className="form-text" id="auction-max-price-help">max price</small> */}
                                         </div>
                                         <h1></h1>
                                         <button type="submit" className="btn btn-success btn-block" onClick={this.auctionPublish.bind(this)}>Publish Auction</button>
