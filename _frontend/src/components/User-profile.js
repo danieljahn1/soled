@@ -25,13 +25,11 @@ class UserProfile extends Component {
             myUserId: '',
         }
     }
-
-
     componentDidMount() {
         axios.get("http://localhost:5000/soled/user/login")
             .then((response) => {
                 console.log(response)
-                
+
                 this.setState({
                     myUserId: response.data[response.data.length - 1].userId
                 })
@@ -43,12 +41,9 @@ class UserProfile extends Component {
                             person: response.data
                         })
                         console.log(this.state.person)
-
                     })
             })
     }
-
-
     updateUserProfile() {
         var body = {
             id: this.state.person.id,
@@ -62,9 +57,7 @@ class UserProfile extends Component {
             zipcode: this.state.person.zipcode,
             country: this.state.person.country,
             profileImage: this.state.person.profileImage,
-
         }
-
         console.log("user object: " );
         console.log(body);
         
@@ -74,7 +67,6 @@ class UserProfile extends Component {
                 console.log(response)
             })
     }
-
     updateUserName(e) {
         console.log(e.target.value);
         var placeholderName = e.target.value
@@ -87,7 +79,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updateEmail(e) {
         var placeholderEmail = e.target.value
 
@@ -99,7 +90,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updatePassword(e) {
         var placeholderPassword = e.target.value
 
@@ -111,7 +101,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updateAddress1(e) {
         var placeholderAddress1 = e.target.value
 
@@ -123,7 +112,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updateAddress2(e) {
         var placeholderAddress2 = e.target.value
 
@@ -135,7 +123,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updateCity(e) {
         var placeholderCity = e.target.value
 
@@ -147,7 +134,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     updateZipcode(e) {
         var placeholderZipcode = e.target.value
 
@@ -181,7 +167,6 @@ class UserProfile extends Component {
             }
         }))
     }
-
     render() {
         return (
             <div>
@@ -229,48 +214,31 @@ class UserProfile extends Component {
                                                             <input type="text" className="form-control" id="add-username" autoComplete="username" placeholder="Username" value={this.state.person.username}
                                                                 onChange={this.updateUserName.bind(this)} required />
                                                         </div>
-
-                                                        
                                                          <div className="form-group">
                                                             <input type="password" pattern=".{8,}" className="form-control" id="add-password" autoComplete="new-password" placeholder="Password" value={this.state.person.password} onChange={this.updatePassword.bind(this)} required />
                                                             <small className="form-text" id="add-password-help">Must be at least 8 characters long.</small>
                                                         </div>
-
-                                                        
                                                         <div className="form-group">
                                                             <input type="text" className="form-control" id="add-address1" autoComplete="address1" placeholder="Address1" value={this.state.person.address1} onChange={this.updateAddress1.bind(this)} required />
                                                         </div>
-
-
                                                         <div className="form-group">
                                                             <input type="text" className="form-control" id="add-address2" autoComplete="address2" placeholder="Address2" value={this.state.person.address2} onChange={this.updateAddress2.bind(this)} required />
                                                         </div>
-
-
                                                         <div className="form-group">
                                                             <input type="text" className="form-control" id="add-city" autoComplete="city" placeholder="City" value={this.state.person.updateCity} onChange={this.updateCity.bind(this)} required />
                                                         </div>
-
-
                                                         <div className="form-group">
                                                             <input type="text" pattern="[0-9]{5}" className="form-control" id="add-zipcode" autoComplete="postal-code" placeholder="Zip Code" value={this.state.person.updateZipcode} onChange={this.updateZipcode.bind(this)} required />
                                                         </div>
-
-
                                                         <div className="form-group">
                                                             <input type="text" className="form-control" id="add-country" autoComplete="country" placeholder="Country" value={this.state.person.country} onChange={this.updateCountry.bind(this)} required />
                                                         </div>
-
-
                                                         <div className="form-group">
                                                             <input type="image" className="form-control" id="add-profileImage" autoComplete="profileImage" placeholder="Profile Image" value={this.state.person.profileImage} onChange={this.updateProfileImage.bind(this)} required />
                                                         </div>
-
-
                                                         <div>
                                                             <button onClick={this.updateUserProfile.bind(this)}>Update</button>
                                                         </div>
-                                                        <h1>hello</h1>
                                                     </form>
                                                 </div>
                                                 :
