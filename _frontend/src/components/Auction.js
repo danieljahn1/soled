@@ -135,6 +135,9 @@ class Auction extends Component {
                                     this.formatDate(this.state.auction.endDate )
                             )
                             }</p>
+                            {
+                                $(selector).countdown({until: liftoffTime})
+                            }
                         </div>
                         <div className="row auctionSections">
                             <h5><strong>Start Price</strong>: ${ this.state.auction.minPrice }</h5>
@@ -258,7 +261,6 @@ class Auction extends Component {
                         // prepend a 0 to a single digit second
                         bidSeconds = this.returnDate(bidSeconds);
                     }
-                    // alert(bidYear + '-' + bidMonth + '-' + bidDay + " " + bidHour + ":" + bidMinute + ":" + bidSeconds);
 
                     var bid = {
                         auctionId: parseInt(this.props.match.params.auctionId),
@@ -266,7 +268,6 @@ class Auction extends Component {
                         bidPrice: parseFloat(this.state.bidInput),
                         bidDate: bidYear + '-' + bidMonth + '-' + bidDay + " " + bidHour + ":" + bidMinute + ":" + bidSeconds
                     }
-                    // console.log(bid);
 
                     // Post the entered bid to the bid table
                     axios.post('http://localhost:5000/soled/bid', bid)
