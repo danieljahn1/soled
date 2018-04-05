@@ -57,6 +57,11 @@ namespace soled_backend
                 sneaker8.Description = "Got these as a gift from an ex. Worn a few times, but kept them super clean. Bodega collabed on these so they are pretty lit. Get at 'em before you get got.";
                 _context.Sneakers.Add(sneaker8);
 
+                Sneaker sneaker9 = new Sneaker("LA Gear", "9.5", "Catapult", "White", "Karl Malone 1991", "Good");
+                sneaker9.SneakerPics.Add(new SneakerImage("http://images.complex.com/complex/image/upload/q_70/dd5a6szdy4tscev88un7.jpg"));
+                sneaker9.Description = "Got these as a gift from back in the day. Barely wore them and kept them clean. Enjoy this sneaker from the old school.";
+                _context.Sneakers.Add(sneaker9);
+
                 _context.SaveChanges();
             }
 
