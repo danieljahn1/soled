@@ -56,7 +56,7 @@ class Listings extends React.Component {
                                 {
                                     
                                         <div key={aucItem.id}>
-                                            <strong>${ aucItem.minPrice }</strong>
+                                            <strong>Starts at ${ aucItem.minPrice }</strong>
                                             <p>Starts at: {this.formatDate(aucItem.startDate)}&nbsp;&nbsp;
                                             Ends at: {this.formatDate(aucItem.endDate)}</p>
                                         </div>
