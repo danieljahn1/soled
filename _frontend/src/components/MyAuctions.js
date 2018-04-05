@@ -8,6 +8,7 @@ class MyAuctions extends Component {
             myUserId: '',
             myAuctionsArr: [],
             myWinningsArr: [],
+            allSneakersArr: []
         }
     }
 
@@ -26,16 +27,22 @@ class MyAuctions extends Component {
                         })
                         console.log(this.state.auctionsArr)
                     })
+                    axios.get('http://localhost:5000/soled/sneaker/')
+                        .then(response => {
+                            this.setState({
+                                allSneakersArr: response.data
+                            })
+                        })
             })
     }
 
     render() {
         return (
             <div>
-                <h3>My Listings</h3>
-                <div>
+                <h3 className="col-md-12">My Listings</h3>
+                <div className="col-md-12">
                     {this.state.myAuctionsArr.map((item, index) =>
-                        <div key={item.id}>
+                        <div  className="col-md-4" key={item.id}>
                             <div>Id: {item.id}</div>
                             <div>Sneaker: {item.sneakerId}</div>
                             <div>Seller: {item.sellerId}</div>
@@ -45,7 +52,7 @@ class MyAuctions extends Component {
                             <div>End Price: {item.endPrice}</div>
                             <div>Winner: {item.winnerId}</div>
                             <h1></h1>
-                            {(!item.completetPayment == true)
+                            {(!item.completetPayment)
                                 ?
                                 <button className="btn"></button>
                                 :
@@ -55,10 +62,10 @@ class MyAuctions extends Component {
                         </div>
                     )}
                 </div>
-                <h3>My Winnings</h3>
-                <div>
+                <h3 className="col-md-12">My Winnings</h3>
+                <div className="col-md-12">
                     {this.state.myWinningsArr.map((item, index) =>
-                        <div key={item.id}>
+                        <div className="col-md-4" key={item.id}>
                             <div>Id: {item.id}</div>
                             <div>Sneaker: {item.sneakerId}</div>
                             <div>Seller: {item.sellerId}</div>
@@ -68,11 +75,11 @@ class MyAuctions extends Component {
                             <div>End Price: {item.endPrice}</div>
                             <div>Winner: {item.winnerId}</div>
                             <h1></h1>
-                            {(!item.completePayment == true)
+                            {(!item.completePayment)
                                 ?
                                 <button className="btn btn-primary">Complete Transaction</button>
                                 :
-                                <button className="btn btn-primary" disabled>Your Sole Has Shipped</button>
+                                <button className="btn btn-warning" disabled>Your Sole Has Shipped</button>
                             }
                             <h1></h1>
                         </div>
