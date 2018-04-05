@@ -30,14 +30,14 @@ class CreateListing extends Component {
     componentDidMount() {
         axios.get('http://localhost:5000/soled/user/login')
             .then(response => {
+                var index = response.data.length - 1;
                 this.setState({
-                    addSellerId: response.data.userId
+                    addSellerId: response.data[index].userId
                 })
             })
     }
 
     sneakerPreview(e) {
-        // e.preventDefault();
         if (this.state.addBrand != '' && this.state.addSize != '' && this.state.addModel != '' && this.state.addStyle != '' && this.state.addVersion != '' && this.state.addDescription != '' && this.state.addImage1 != '') {
             e.preventDefault();
             console.log(this.state.addBrand);
@@ -45,7 +45,6 @@ class CreateListing extends Component {
                 formA: false,
             })
         }
-
     }
 
     sneakerEdit() {
@@ -103,7 +102,7 @@ class CreateListing extends Component {
     render() {
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to={"/auction/" + this.state.auctionId}/>
+            return <Redirect to={"/auction/" + this.state.auctionId} />
         }
 
         return (
