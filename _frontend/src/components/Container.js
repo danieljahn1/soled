@@ -9,6 +9,7 @@ import UserProfile from './User-profile'
 import Listings from './Listings'
 import Auction from './Auction'
 import CreateListing from './CreateListing'
+import MyAuctions from './MyAuctions'
 
 class Container extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class Container extends Component {
                     <Route path='/listings' component={Listings} />
                     <Route path='/create-listing' component={CreateListing} />
                     <Route path='/auction/:auctionId' component={Auction} />
+                    <Route path='/my-auctions' component={MyAuctions} />
                 </Switch>
             </div>
                 

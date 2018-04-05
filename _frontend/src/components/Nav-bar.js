@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Menu from './menu'
 
@@ -17,12 +17,13 @@ class NavBar extends Component {
             return (
                 <div className="container-fluid col-md-12">
                     <nav id="nav-bar">
-                        <h1>Soled</h1>
+                        <h1>SOLEd</h1>
                         <Link to="/">Home</Link> | 
-                        <Link to="/listings">View All Shoes</Link> |
-                        <Link to="/signin">Sign In</Link> |
-                        <Link to="/create-listing">Create Listing</Link>
-                        <Menu />
+                        <Link to="/listings">Get Some Soles</Link> |
+                        <Link to="/create-listing">Sell Your Soles</Link> |
+                        <Link to="/my-auctions">My Soles</Link> |
+                        <Link to="/signin">Sign In</Link>
+                        {/* <Menu /> */}
                     </nav>
                 </div>
             )
@@ -30,4 +31,4 @@ class NavBar extends Component {
 
 }
 
-export default NavBar;
+export default NavBar
