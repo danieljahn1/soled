@@ -7,7 +7,7 @@ import Container from './components/container'
 import store from './redux/store'
 
 //CSS
-import './styles/styles.css'
+// import './style/style.css'
 
 ReactDOM.render(<Provider store={store}>
 <BrowserRouter>

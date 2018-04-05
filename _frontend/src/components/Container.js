@@ -8,13 +8,10 @@ import SignIn from './Sign-in'
 import UserProfile from './User-profile'
 import Listings from './Listings'
 import Auction from './Auction'
-<<<<<<< HEAD
 import NavAnon from './Nav-anon'
 import NavKnown from './Nav-known'
-=======
 import CreateListing from './CreateListing'
 import MyAuctions from './MyAuctions'
->>>>>>> 04e3c20a5386b30a7aec9ff74066b56af0c23160
 
 class Container extends Component {
     constructor(props) {
@@ -28,12 +25,9 @@ class Container extends Component {
                     {/* <NavBar /> */}
                     {/* <SignUp/> */}
                     {/* <SignIn/> */}
-<<<<<<< HEAD
                     {/* <NavAnon /> */}
                     <NavKnown />
-=======
                     {/* <CreateListing /> */}
->>>>>>> 04e3c20a5386b30a7aec9ff74066b56af0c23160
                 </div>
             <div className="container-fluid">
                 <Switch>
