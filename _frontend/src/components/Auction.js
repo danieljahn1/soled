@@ -66,11 +66,11 @@ class Auction extends Component {
     
 
     render() { 
-        // const { redirect } = this.state;
-        // if (redirect) {
-        //     // If the user is not logged in, redirect them to the signup page
-        //     return <Redirect to="/signin" />
-        // }
+        const { redirect } = this.state;
+        if (redirect) {
+            // If the user is not logged in, redirect them to the signup page
+            return <Redirect to="/signin" />
+        }
         return (
             
             <div className="container-fluid">                
@@ -126,18 +126,7 @@ class Auction extends Component {
                         </div>
                         <div className="row auctionSections">
                             <h5><strong>Start Price</strong>: ${ this.state.auction.minPrice }</h5>
-                            {
-                                (this.state.auction.maxPrice > 0)
-                                ?
-                                <div>
-                                <span className="endAuction">End Auction Price: { (this.state.auction.maxPrice > 0) ? "$" + this.state.auction.maxPrice : "N/A" } </span>
-                                <button id="btnEndAuction" className="btn btn-danger btn-sm">End the Auction</button>
-                                </div>
-                                :
-                                <div>                                
-                                </div>
-                            }
-                                              
+                                      
                         </div>
                         <div className="row auctionSections">
                             <div className="row">
@@ -208,11 +197,32 @@ class Auction extends Component {
             // Bid amount is verified. Enter the bid for the user
 
             // Make sure user is logged in
-            if (this.props.loggedInUser.length > 0) {
+            if (this.props.loggedInUser != "") {
                 // User is logged in. Place the bid.
+
+                // Make sure the user is not the seller of the item so they cannot run up the bid
+                if (this.props.loggedInUser.id == this.state.auction.sellerId) {
+                    alert("You are the seller of this item. You cannot bid on it.");
+                }
+                else {
+                    // Place the bid
+                    // Need the auctionId, the logged in user's ID (bidder), bid price and the current date
+                    // var d = Math.floor(Date.now() / 1000);
+                    // alert(d);
+                    // var bid = {
+                    //     auctionId: this.props.match.params.auctionId,
+                    //     bidderId: this.props.loggedInUser.id,
+                    //     bidPrice: this.state.bidInput,
+                    //     bidDate: 
+                    // }
+                }
             }
             else {
                 // Anonymous user. Direct them to sign in
+                alert("You must sign in to place a bid.");
+                this.setState({ 
+                    redirect: true
+                   })
             }
         }
     }
