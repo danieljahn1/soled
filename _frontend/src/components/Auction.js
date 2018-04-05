@@ -50,20 +50,30 @@ class Auction extends Component {
                     })
 
                     // Get the bids of the auction
-                    axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
-                    .then (bidResponse => {
-                        // console.log(bidResponse.data);
-
-                        this.setState({
-                            bids: bidResponse.data
-                        });
-                        
-                    })
+                    this.getAuctionBids();
 
                 }
                 
-            })            
+            })
+    }
 
+    getAuctionBids() {
+        // Get the bids of the auction
+        axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
+            .then (bidResponse => {
+                // console.log(bidResponse.data);
+
+                this.setState({
+                    bids: bidResponse.data,
+                    
+                });
+                
+                // Get the high bid and set in state to display
+                var highBid = this.getHighestBid();
+                this.setState({
+                    currentBid: highBid
+                })
+            })
     }
     
 
@@ -137,7 +147,7 @@ class Auction extends Component {
                             <div className="row auctionSections">
                             <div className="row">
                                 <div className="col-md-8">
-                                    <h4>Current Price: { (this.getHighestBid() > 0) ? "$" + this.getHighestBid() : "Be the first person to bid!"  }</h4>
+                                    <h4>Current Price: { (this.state.currentBid > 0) ? "$" + this.state.currentBid : "Be the first person to bid!"  }</h4>
                                 </div>
                                 <div className="col-md-4 numBids">
                                  { ( this.state.bids.length > 0 ) ? "Number of Bids: " +  this.state.bids.length : "" }                                 
@@ -264,8 +274,8 @@ class Auction extends Component {
                             if (response.status == 200) {
                                 alert("Your bid has been entered. You are now the high bidder.");
 
-                                // Update the current price section
-                                
+                                // Update the current price section - get the bids of the auction
+                                this.getAuctionBids();
                             }
                         })
                 }
