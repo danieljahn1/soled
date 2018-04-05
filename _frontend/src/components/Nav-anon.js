@@ -1,31 +1,27 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { userAuth } from '../redux/actions'
+import { Link } from 'react-router-dom'
+
 
 class NavAnon extends Component {
     constructor(props) {
-        super(props);
-        this.state = { 
-            verifyEmail: '',
-            verifyPassword: '',
-         }
+        super(props)
     }
-    render() { 
-        return ( 
-            <nav className="navbar navbar-default">
+
+    render() {
+        return (
+            <nav id="nav" className="navbar navbar-default" style={{marginBottom:"30px"}}>
             <div className="container-fluid" id="nav" >
                 <div className="navbar-header">
-                    <a className="navbar-brand" id="title" href="#">Soled</a>
+                    <a className="navbar-brand" id="title" href="#">SOLEd!</a>
                     <ul className="section-nav">
-                        <li className="toc-entry toc-h2"><a href="#classes">Shoes</a></li>
-                        <li className="toc-entry toc-h2"><a href="#mixins">Color</a></li>
-                        <li className="toc-entry toc-h2"><a href="#responsive">Sign In</a></li>
+                        <Link to="/viewsoles">< li className="toc-entry toc-h2">GET SOME SOLE</li></Link>
+                        <Link to="/signin">< li className="toc-entry toc-h2">SIGN IN / SIGN UP</li></Link>
                     </ul>
                 </div>
             </div>
         </nav>
-         )
+        )
     }
 }
- 
-export default NavAnon;
+
+export default NavAnon
