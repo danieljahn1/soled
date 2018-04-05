@@ -47,7 +47,7 @@ class Listings extends React.Component {
                                     <img src={ item.sneakerPics[0].path } className="img-responsive" width="250" />
                                 </div>
                                 <div className="row col-md-8">
-                                    <Link to={'/auction/' + aucItem.id}>
+                                    <Link to={'/sole/' + aucItem.id}>
                                     { item.brand } { item.model} { item.style } { item.version}
                                     &nbsp;Size&nbsp;{ item.size } 
                                     </Link>

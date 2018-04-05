@@ -33,7 +33,7 @@ class Container extends Component {
                     <Route path='/userprofile/' component={UserProfile} />
                     <Route path='/listings' component={Listings} />
                     <Route path='/create-listing' component={CreateListing} />
-                    <Route path='/auction/:auctionId' component={Auction} />
+                    <Route path='/sole/:auctionId' component={Auction} />
                     <Route path='/my-auctions' component={MyAuctions} />
                 </Switch>
             </div>
