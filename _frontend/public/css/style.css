@@ -49,25 +49,16 @@
 
 /* End EM styles */
 
-ul, li{
-  list-style-type: none;
-  display: inline;
-  margin: 90px;
-  padding: 70px;
-  font-size: 25px;  
-  color: grey;
-}
 #title {
-font-size: 25px;
+font-size: 35px;
+color: grey;
 }
 
-div.navbar-header {
-margin:7px; 
-margin-bottom:0; 
-}
-#nav{
-height: 30px;
-}
 #jumbo {
 height: 280px
+}
+.btn-link {
+  font-size: 35px;
+  color: grey;
+  padding: 5px 40px;
 }
