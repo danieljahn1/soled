@@ -48,3 +48,17 @@
 
 
 /* End EM styles */
+
+#title {
+font-size: 35px;
+color: grey;
+}
+
+#jumbo {
+height: 280px
+}
+.btn-link {
+  font-size: 35px;
+  color: grey;
+  padding: 5px 40px;
+}

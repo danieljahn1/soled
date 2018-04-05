@@ -17,17 +17,17 @@ class NavKnown extends Component {
 
     render() {
         return (
-            <nav id="nav" className="navbar navbar-default" style={{ marginBottom: "30px" }}>
-                <div className="container-fluid" id="nav" >
-                    <div className="navbar-header">
-                        <a className="navbar-brand" id="title" href="#">SOLEd!</a>
-                        <ul className="section-nav">
-                            <Link to="/viewsoles">< li className="toc-entry toc-h2">GET SOME SOLE</li></Link>
-                            <Link to="/createsole">< li className="toc-entry toc-h2">SELL YOUR SOLE</li></Link>
-                            <Link to="/mysole">< li className="toc-entry toc-h2">MY SOLE</li></Link>
-                            < li className="toc-entry toc-h2">LOG OUT</li>
-                        </ul>
+            <nav className="navbar navbar-default" style={{marginBottom:"-10px"}}>
+            <div className="container-fluid" >
+                <div className="navbar-header">
+                    <a className="navbar-brand" id="title" href="#">SOLEd!</a>
                     </div>
+                    <div className="pull-right">
+                        <Link to="/viewsoles/"><button className=" btn btn-link">GET SOME SOLE</button></Link>
+                        <Link to="/createsole/"><button className="btn btn-link">SELL YOUR SOLE</button></Link>
+                        <Link to="/mysole/"><button className="btn btn-link">MY SOLE</button></Link>
+                        <Link to="/"><button  className="btn btn-link" onClick={this.logout.bind(this)}>LOG OUT</button></Link>
+                
                 </div>
             </nav>
         )

@@ -109,21 +109,6 @@ class Home extends Component {
                     </div>
                 </div>
             </div>
-
-
-
-
-
-            // if (this.props.loggedInUser.length == 0) {
-            //     return (
-            //         <NavAnon />
-            //     )
-            // } else {
-            //     return (
-            //         <NavKnown />
-            //     )
-            // }
-
         )
 
     }

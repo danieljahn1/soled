@@ -9,15 +9,16 @@ class NavAnon extends Component {
 
     render() {
         return (
-            <nav id="nav" className="navbar navbar-default" style={{marginBottom:"30px"}}>
+            <nav id="nav" className="navbar navbar-default" style={{marginBottom:"-10px"}}>
             <div className="container-fluid" id="nav" >
                 <div className="navbar-header">
                     <a className="navbar-brand" id="title" href="#">SOLEd!</a>
-                    <ul className="section-nav">
-                        <Link to="/viewsoles">< li className="toc-entry toc-h2">GET SOME SOLE</li></Link>
-                        <Link to="/signin">< li className="toc-entry toc-h2">SIGN IN / SIGN UP</li></Link>
-                    </ul>
-                </div>
+                    </div>
+                    <div className="pull-right">
+                    <Link to="/viewsoles/"><button className=" btn btn-link"> GET SOME SOLE </button></Link>
+                    <Link to="/sign-in/"><button className="btn btn-link"> SIGN IN </button></Link>
+                    <Link to="/sign-up/"><button className="btn btn-link"> SIGN UP </button></Link>
+                   </div>
             </div>
         </nav>
         )
