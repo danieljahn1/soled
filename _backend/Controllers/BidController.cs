@@ -21,6 +21,7 @@ namespace soled_backend
                 _context.Bids.Add(new Bid(1, 3, 530, DateTime.Parse("2018-04-01 12:30:00")));
                 _context.Bids.Add(new Bid(2, 3, 50, DateTime.Parse("2018-04-03 14:24:00")));
                 _context.Bids.Add(new Bid(2, 1, 65, DateTime.Parse("2018-04-03 14:44:00")));
+                _context.Bids.Add(new Bid(5, 2, 201, DateTime.Parse("2018-04-04 12:14:00")));
                
                 _context.SaveChanges();
             }
