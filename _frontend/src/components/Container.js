@@ -11,6 +11,7 @@ import Auction from './Auction'
 import CreateListing from './CreateListing'
 import MyAuctions from './MyAuctions'
 
+
 class Container extends Component {
     constructor(props) {
         super(props)
@@ -21,26 +22,20 @@ class Container extends Component {
             <div className="container-fluid">
                 <div className="nav-bar-div">
                     <NavBar />
-                    {/* <SignUp/> */}
-                    {/* <SignIn/> */}
-                    {/* <CreateListing /> */}
                 </div>
-            <div className="container-fluid">
                 <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/signup' component={SignUp} />
                     <Route path='/signin' component={SignIn} />
-                    <Route path='/userprofile/' component={UserProfile} />
-                    <Route path='/listings' component={Listings} />
-                    <Route path='/create-listing' component={CreateListing} />
+                    <Route path='/mysole' component={UserProfile} />
+                    <Route path='/viewsoles' component={Listings} />
+                    <Route path='/createsole' component={CreateListing} />
                     <Route path='/sole/:auctionId' component={Auction} />
-                    <Route path='/my-auctions' component={MyAuctions} />
+                    <Route path='/allmysoles' component={MyAuctions} />
                 </Switch>
-            </div>
-                
             </div>
         )
     }
 }
 
-export default Container;
+export default Container

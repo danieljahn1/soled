@@ -1,34 +1,39 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import Menu from './menu'
+import { connect } from 'react-redux'
+import NavKnown from './nav-known';
+import NavAnon from './nav-anon';
 
 
 class NavBar extends Component {
     constructor(props) {
         super(props)
-    }
-    render() { 
-        return ( 
-            <div></div>
-         )
+        this.state = {
+        }
     }
 
     render() {
+        if (this.props.userInSession != '') {
             return (
-                <div className="container-fluid col-md-12">
-                    <nav id="nav-bar">
-                        <h1>SOLEd</h1>
-                        <Link to="/">Home</Link> | 
-                        <Link to="/listings">Get Some Soles</Link> |
-                        <Link to="/create-listing">Sell Your Soles</Link> |
-                        <Link to="/my-auctions">My Soles</Link> |
-                        <Link to="/signin">Sign In</Link>
-                        {/* <Menu /> */}
-                    </nav>
+                <div className="col-md-12">
+                    <NavKnown />
                 </div>
             )
-    }
+        } else {
+            return (
+                <div className="col-md-12">
+                    <NavAnon />
+                </div>
+            )
+        }
 
+    }
 }
 
-export default NavBar
+const mapStateToProps = state => {
+    return {
+        userInSession: state.loggedInUser
+    }
+}
+
+export default connect(mapStateToProps)(NavBar)

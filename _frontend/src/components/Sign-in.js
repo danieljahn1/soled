@@ -46,13 +46,8 @@ class SignIn extends Component {
     render() {
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to="/listings" />
+            return <Redirect to="/viewsoles" />
         }
-        // if (redirect && this.props.eventLastViewed.length != 0) {
-        //     return <Redirect to={this.joinEventUrl()} />
-        // } else if (redirect) {
-        //     return <Redirect to="/welcome" />
-        // }
 
         return (
             <div className="col-md-6 forms">
