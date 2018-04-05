@@ -9,6 +9,10 @@
 
 /* EM styles */  
 
+  .auctionBox {
+    margin-top: 15px;
+  }
+
   .auctionSections {
     margin: 10px 0;
     border: 1px solid lightgrey;
@@ -39,11 +43,15 @@
   }
 
   .numBids {
-      margin-top: 10px;
+    margin-top: 10px;
   }
 
   .bidDirections {
-      font-size: 12px;
+    font-size: 12px;
+  }
+
+  .auctionEnding {
+    color: red;
   }
 
 

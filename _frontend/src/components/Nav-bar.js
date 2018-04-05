@@ -9,12 +9,11 @@ class NavBar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userInSession: '',
         }
     }
 
     render() {
-        if (this.props.loggedInUser != '') {
+        if (this.props.userInSession != '') {
             return (
                 <div className="col-md-12">
                     <NavKnown />

@@ -15,8 +15,11 @@ class Auction extends Component {
             seller: {},
             bids: [],
             bidInput: "",
-            currentBid: "" 
+            currentBid: "",
+            highBidderId: 0,
+            highBidder: {}  
         }
+
     }
 
     componentDidMount() {
@@ -52,8 +55,31 @@ class Auction extends Component {
                     // Get the bids of the auction
                     this.getAuctionBids();
 
+                    // Set up the countdown timer
+                    var endDate = this.state.auction.endDate;
+                    var self = this;
+                    $(function () {                        
+                        var checkAuctionStatus = function() {
+                            // Auction ended. Set the winner of the auction based on the highest bid
+                            console.log("timer ended", self.state.auction.endDate);
+                            if ( new Date(Date.now()) >= new Date(self.state.auction.endDate) ) {
+                                // Auction is over
+                                
+                                // Get the bids
+                                self.getAuctionBids();
+
+                                alert("Auction has ended. The winner is " + self.state.highBidder.username);
+                                // Get the highest bidder's user ID and set to the auction's WinnerID
+                                
+                            }
+                            
+                        }
+                        var endAuction = new Date(endDate);
+                        $('#auctionCountdown').countdown({until: endAuction, onExpiry: checkAuctionStatus });
+                    });
+
                 }
-                
+
             })
     }
 
@@ -68,10 +94,25 @@ class Auction extends Component {
                     
                 });
                 
-                // Get the high bid and set in state to display
+                // Get the high bid and bidderID and set in state to display
                 var highBid = this.getHighestBid();
                 this.setState({
                     currentBid: highBid
+                });
+
+                var highBidderId = this.getHighestBidderId();
+                this.setState({
+                    highBidderId: highBidderId
+                });
+
+                // Get the highest bidder user
+                axios.get('http://localhost:5000/soled/user/id/' + this.state.highBidderId)
+                .then (highBidResponse  => {
+                    // console.log(highBidResponse.data);
+
+                    this.setState({
+                        highBidder: highBidResponse.data
+                    })
                 })
             })
     }
@@ -86,7 +127,7 @@ class Auction extends Component {
         return (
             
             <div className="container-fluid">                
-                <div className="container">
+                <div className="container auctionBox">
                 
                     <div className="col-md-3">
                         <div className="row">   
@@ -135,6 +176,22 @@ class Auction extends Component {
                                     this.formatDate(this.state.auction.endDate )
                             )
                             }</p>
+                            {
+                                <div>
+                                    {/* If the auction is within two hours of ending, change the display. 7200 is seconds */}
+                                    { ( (new Date(this.state.auction.endDate).getTime() - new Date(Date.now()).getTime() ) / 1000 <= 7200  )
+                                        ?
+                                            ( new Date(Date.now()) >= new Date(this.state.auction.endDate) )
+                                            ?
+                                            <h5 className="auctionEnding"><strong>Auction has ended.</strong></h5>
+                                            :
+                                            <h5 className="auctionEnding"><strong>Auction ending soon!</strong></h5>
+                                        :
+                                        <h5><strong>Time Remaining:</strong></h5>
+                                    }
+                                    <div id="auctionCountdown" className="col-md-4"></div>
+                                </div>
+                            }
                         </div>
                         <div className="row auctionSections">
                             <h5><strong>Start Price</strong>: ${ this.state.auction.minPrice }</h5>
@@ -142,21 +199,29 @@ class Auction extends Component {
                         </div>
                         
                         {
-                            (Date.now() <= Date.parse(this.state.auction.endDate))
+                            (Date.now() <= new Date(this.state.auction.endDate))
                             ?
                             <div className="row auctionSections">
                             <div className="row">
                                 <div className="col-md-8">
-                                    <h4>Current Price: { (this.state.currentBid > 0) ? "$" + this.state.currentBid : "Be the first person to bid!"  }</h4>
+                                    <h4><strong>Current Price</strong>: { (this.state.currentBid > 0) ? "$" + this.state.currentBid : "Be the first person to bid!"  }</h4>
                                 </div>
                                 <div className="col-md-4 numBids">
-                                 { ( this.state.bids.length > 0 ) ? "Number of Bids: " +  this.state.bids.length : "" }                                 
+                                { ( this.state.bids.length > 0 ) 
+                                    ? 
+                                    <div>
+                                        <p>Number of Bids: { this.state.bids.length }</p>
+                                        <p>Current high bidder: { this.state.highBidder.username }</p>
+                                    </div>                                    
+                                    : 
+                                    ""                                 
+                                }                                 
                                 </div>
                             </div>
                             
                             
                             <div className="col-xs-2">
-                                <input type="number" className="form-control" id="txtBid" onChange={ e => this.setState({   bidInput: e.target.value })  } />
+                                <input type="number" className="form-control" id="txtBid" value={this.state.bidInput} onChange={ e => this.setState({   bidInput: e.target.value })  } />
                             </div> 
                             
                             <button id="btnPlaceBid" className="btn btn-primary btn-sm" onClick={ this.placeBid.bind(this) }>Place Your Bid</button>
@@ -173,7 +238,9 @@ class Auction extends Component {
                             </div>
                             :
                             <div className="row auctionSections">
-                                <strong>This listing has ended.</strong>
+                                <strong><p>This listing has ended. Ending price is ${ this.state.currentBid  }</p>
+                                {( this.state.bids.length > 0 ) ? <p>Winning bidder: { this.state.highBidder.username }</p> : "" }
+                                </strong>
                             </div>
                         }                        
 
@@ -188,6 +255,18 @@ class Auction extends Component {
                 </div>
             </div>
          )
+    }
+
+    timeLeft() {
+        var newYear = new Date("2018-04-06 12:00:00"); 
+        newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1); 
+        $('#defaultCountdown').countdown({until: newYear}); 
+        
+        $('#removeCountdown').click(function() { 
+            var destroy = $(this).text() === 'Remove'; 
+            $(this).text(destroy ? 'Re-attach' : 'Remove'); 
+            $('#defaultCountdown').countdown(destroy ? 'destroy' : {until: newYear}); 
+        });
     }
 
     placeBid() {
@@ -213,6 +292,9 @@ class Auction extends Component {
             // Make sure the bid is not lower than the current amount (+ 1)
             alert("Your bid is too low. Please enter a bid of at least $" + highestBid + ".");
         }
+        else if (this.state.auction.endDate >= Date.now()) {
+            alert("Auction has expired. You cannot bid on this item anymore.");
+        }
         else {
             // console.log(this.state.bidInput);
 
@@ -236,29 +318,28 @@ class Auction extends Component {
                     var bidMonth = d.getMonth() + 1;
                     if (bidMonth < 10) {
                         // prepend a 0 to a single digit month
-                        bidMonth = this.returnDate(bidMonth);
+                        bidMonth = this.returnLeadingZero(bidMonth);
                     }   
                     var bidDay = d.getDate();
                     if (bidDay < 10) {
                         // prepend a 0 to a single digit day
-                        bidDay = this.returnDate(bidDay);
+                        bidDay = this.returnLeadingZero(bidDay);
                     }
                     var bidHour = d.getHours();
                     if (bidHour < 10 ) {
                         // prepend a 0 to a single digit hour
-                        bidHour = this.returnDate(bidHour);
+                        bidHour = this.returnLeadingZero(bidHour);
                     }
                     var bidMinute = d.getMinutes();
                     if (bidMinute < 10 ) {
                         // prepend a 0 to a single digit minute
-                        bidMinute = this.returnDate(bidMinute);
+                        bidMinute = this.returnLeadingZero(bidMinute);
                     }
                     var bidSeconds = d.getSeconds();
                     if (bidSeconds < 10 ) {
                         // prepend a 0 to a single digit second
-                        bidSeconds = this.returnDate(bidSeconds);
+                        bidSeconds = this.returnLeadingZero(bidSeconds);
                     }
-                    // alert(bidYear + '-' + bidMonth + '-' + bidDay + " " + bidHour + ":" + bidMinute + ":" + bidSeconds);
 
                     var bid = {
                         auctionId: parseInt(this.props.match.params.auctionId),
@@ -266,7 +347,6 @@ class Auction extends Component {
                         bidPrice: parseFloat(this.state.bidInput),
                         bidDate: bidYear + '-' + bidMonth + '-' + bidDay + " " + bidHour + ":" + bidMinute + ":" + bidSeconds
                     }
-                    // console.log(bid);
 
                     // Post the entered bid to the bid table
                     axios.post('http://localhost:5000/soled/bid', bid)
@@ -276,6 +356,11 @@ class Auction extends Component {
 
                                 // Update the current price section - get the bids of the auction
                                 this.getAuctionBids();
+
+                                // Clear the textbox
+                                this.setState({
+                                    bidInput: ""
+                                })
                             }
                         })
                 }
@@ -290,7 +375,7 @@ class Auction extends Component {
         }
     }
 
-    returnDate(num) {
+    returnLeadingZero(num) {
         // Prepends a zero if it is a single digit month, day, hour or minute
         return '0' + num;
     }
@@ -312,6 +397,29 @@ class Auction extends Component {
             }             
             
             return highestBid;
+        }
+        else {
+            return 0;
+        }
+        
+    }
+
+    getHighestBidderId() {
+        // Get the highest bid of the item
+        if (this.state.bids.length > 0) {
+            var highestBidder = 0;
+            var lastBid = 0;
+            for (var i = 0; i < this.state.bids.length; i++) {
+                // Check the bid price against the previous one. If it is higher, set to highestBid
+                if (this.state.bids[i].bidPrice > lastBid) {
+                    highestBidder = this.state.bids[i].bidderId;
+                }
+
+                // Set the evaluated bid to lastBid for comparison to the next value
+                lastBid = this.state.bids[i].bidPrice;
+            }             
+            
+            return highestBidder;
         }
         else {
             return 0;

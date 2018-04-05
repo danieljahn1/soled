@@ -31,7 +31,7 @@ class Container extends Component {
                     <Route path='/viewsoles' component={Listings} />
                     <Route path='/createsole' component={CreateListing} />
                     <Route path='/sole/:auctionId' component={Auction} />
-                    <Route path='/mysole/soles' component={MyAuctions} />
+                    <Route path='/allmysoles' component={MyAuctions} />
                 </Switch>
             </div>
         )
