@@ -68,9 +68,27 @@ class Auction extends Component {
                                 // Get the bids
                                 self.getAuctionBids();
 
-                                alert("Auction has ended. The winner is " + self.state.highBidder.username);
+                                
                                 // Get the highest bidder's user ID and set to the auction's WinnerID
                                 
+                                var auctionUpdate  = {
+                                    id: self.state.auction.id,
+                                    sneakerId: self.state.auction.sneakerId,
+                                    sellerId: self.state.auction.sellerId,
+                                    startDate: self.state.auction.startDate,
+                                    endDate: self.state.auction.endDate,
+                                    minPrice: self.state.auction.minPrice,
+                                    maxPrice: self.state.auction.maxPrice,
+                                    winnerId: self.state.highBidder.id,
+                                    completePayment: false
+                                }
+
+                                axios.put('http://localhost:5000/soled/auction/' + self.state.auction.id, auctionUpdate )
+                                    .then (response => {
+                                        if (response.status == 200) (
+                                            alert("Auction has ended. The winner is " + self.state.highBidder.username)
+                                        )
+                                    })
                             }
                             
                         }
