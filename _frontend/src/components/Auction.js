@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -8,52 +9,133 @@ class Auction extends Component {
         super(props);
 
         this.state = {
+            redirect: false,
+            auction: {},
+            sneaker: {},
             seller: {},
             bids: [],
-            bidInput: ""      
+            bidInput: "",
+            currentBid: "",
+            highBidderId: 0,
+            highBidder: {}  
         }
+
     }
 
-    componentDidMount() {        
-        // Get the seller of the auction
-        axios.get('http://localhost:5000/soled/user/id/' + this.props.viewItems[0].sellerId)
-        .then (response => {
-            // console.log(response.data);
-
-            this.setState({
-                seller: response.data
-            })
-        })
-        
-        // Get the bids of the auction  http://localhost:5000/soled/bid/auctionId/
-        axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.viewItems[0].id)
+    componentDidMount() {
+        // Get the auction data
+        axios.get('http://localhost:5000/soled/auction/' + this.props.match.params.auctionId) 
             .then (response => {
                 // console.log(response.data);
+                if (response.status == 200) {
+                    this.setState({
+                        auction: response.data
+                    })
+
+                    // Get the sneaker associated with the auction
+                    axios.get('http://localhost:5000/soled/sneaker/' + this.state.auction.sneakerId)
+                        .then (sneakerResponse => {
+                            // console.log(sneakerResponse.data);
+                            
+                            this.setState({
+                                sneaker: sneakerResponse.data
+                            })
+                        })
+
+                    // Get the seller of the auction
+                    axios.get('http://localhost:5000/soled/user/id/' + this.state.auction.sellerId)
+                    .then (sellerResponse => {
+                        // console.log(sellerResponse.data);
+
+                        this.setState({
+                            seller: sellerResponse.data
+                        })
+                    })
+
+                    // Get the bids of the auction
+                    this.getAuctionBids();
+
+                    // Set up the countdown timer
+                    var endDate = this.state.auction.endDate;
+                    var self = this;
+                    $(function () {                        
+                        var checkAuctionStatus = function() {
+                            // Auction ended. Set the winner of the auction based on the highest bid
+                            console.log("timer ended", self.state.auction.endDate);
+                            if ( new Date(Date.now()) >= new Date(self.state.auction.endDate) ) {
+                                // Auction is over
+                                
+                                // Get the bids
+                                self.getAuctionBids();
+
+                                alert("Auction has ended. The winner is " + self.state.highBidder.username);
+                                // Get the highest bidder's user ID and set to the auction's WinnerID
+                                
+                            }
+                            
+                        }
+                        var endAuction = new Date(endDate);
+                        $('#auctionCountdown').countdown({until: endAuction, onExpiry: checkAuctionStatus });
+                    });
+
+                }
+
+            })
+    }
+
+    getAuctionBids() {
+        // Get the bids of the auction
+        axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
+            .then (bidResponse => {
+                // console.log(bidResponse.data);
 
                 this.setState({
-                    bids: response.data
+                    bids: bidResponse.data,
+                    
+                });
+                
+                // Get the high bid and bidderID and set in state to display
+                var highBid = this.getHighestBid();
+                this.setState({
+                    currentBid: highBid
+                });
+
+                var highBidderId = this.getHighestBidderId();
+                this.setState({
+                    highBidderId: highBidderId
+                });
+
+                // Get the highest bidder user
+                axios.get('http://localhost:5000/soled/user/id/' + this.state.highBidderId)
+                .then (highBidResponse  => {
+                    // console.log(highBidResponse.data);
+
+                    this.setState({
+                        highBidder: highBidResponse.data
+                    })
                 })
             })
-
-        // Check if the auction has a max price. If it doesn't then hide the End Auction button
-        if (this.props.viewItems[0].maxPrice > 0) {
-            document.getElementById("btnEndAuction").style.display = '';
-        }
-        else {
-            document.getElementById("btnEndAuction").style.display = 'none';
-        }
-
     }
     
 
     render() { 
+        const { redirect } = this.state;
+        if (redirect) {
+            // If the user is not logged in, redirect them to the signup page
+            return <Redirect to="/signin" />
+        }
         return (
+            
             <div className="container-fluid">                
-                <div className="container">
-                {/* { this.props.viewItems: Array 0 is the auction. Array 1 is the sneaker } */}
+                <div className="container auctionBox">
+                
                     <div className="col-md-3">
-                        <div className="row">
-                            <img src={ this.props.viewItems[1].sneakerPics[0].path } className="img-responsive" width="400" />
+                        <div className="row">   
+                        
+                           { this.state.sneaker.sneakerPics != undefined &&
+                             (<img src={ this.state.sneaker.sneakerPics[0].path } className="img-responsive" width="400" />
+                             )
+                            }
                         </div>
                         <div className="row auctionSections">
                             <p>&nbsp;</p>
@@ -62,42 +144,111 @@ class Auction extends Component {
                         </div>
                     </div>
                     <div className="col-md-8">
-                        <div className="row auctionSections">
-                            <h3>Model: { this.props.viewItems[1].model }</h3>
-                            <h3>Brand: { this.props.viewItems[1].brand }</h3>
-                            <h3>Version: { this.props.viewItems[1].version }</h3>
-                            <h3>Size:  { this.props.viewItems[1].size }</h3>
+                        <div className="row auctionSections auctionSectionHeader">
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Model:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.model }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Brand:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.brand }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Version:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.version }</div>
+                            </div>
+                            <div className="row auctionHeader">
+                                <div className="col-md-2">Size:</div> 
+                                <div className="col-md-5">{ this.state.sneaker.size }</div>
+                            </div>
+                            
+                        </div>
+                        <div className="row auctionSections">                            
+                            <p>Started on: { 
+                                this.state.auction.startDate != undefined &&
+                                (
+                                this.formatDate(this.state.auction.startDate )
+                            )
+                            }</p>
+                            <p>Ends on: { 
+                                this.state.auction.startDate != undefined &&
+                                (
+                                    this.formatDate(this.state.auction.endDate )
+                            )
+                            }</p>
+                            {
+                                <div>
+                                    {/* If the auction is within two hours of ending, change the display. 7200 is seconds */}
+                                    { ( (new Date(this.state.auction.endDate).getTime() - new Date(Date.now()).getTime() ) / 1000 <= 7200  )
+                                        ?
+                                            ( new Date(Date.now()) >= new Date(this.state.auction.endDate) )
+                                            ?
+                                            <h5 className="auctionEnding"><strong>Auction has ended.</strong></h5>
+                                            :
+                                            <h5 className="auctionEnding"><strong>Auction ending soon!</strong></h5>
+                                        :
+                                        <h5><strong>Time Remaining:</strong></h5>
+                                    }
+                                    <div id="auctionCountdown" className="col-md-4"></div>
+                                </div>
+                            }
                         </div>
                         <div className="row auctionSections">
-                            <p>Started on: { this.formatDate(this.props.viewItems[0].startDate) }</p>
-                            <p>Ends on: { this.formatDate(this.props.viewItems[0].endDate) }</p>
+                            <h5><strong>Start Price</strong>: ${ this.state.auction.minPrice }</h5>
+                                      
                         </div>
-                        <div className="row auctionSections">
-                            <h5>Start Price: ${ this.props.viewItems[0].minPrice }</h5>
-                            <span className="endAuction">End Auction Price: { (this.props.viewItems[0].maxPrice > 0) ? "$" + this.props.viewItems[0].maxPrice : "N/A" } </span>
-                            <button id="btnEndAuction" className="btn btn-danger btn-sm">End the Auction</button>                    
-                        </div>
-                        <div className="row auctionSections">
+                        
+                        {
+                            (Date.now() <= new Date(this.state.auction.endDate))
+                            ?
+                            <div className="row auctionSections">
                             <div className="row">
                                 <div className="col-md-8">
-                                    <h4>Current Bid: { (this.getHighestBid() > 0) ? "$" + this.getHighestBid() : "Be the first person to bid!"  }</h4>
+                                    <h4><strong>Current Price</strong>: { (this.state.currentBid > 0) ? "$" + this.state.currentBid : "Be the first person to bid!"  }</h4>
                                 </div>
-                                <div className="col-md-4">
-                                 { ( this.state.bids.length > 0 ) ? "Number of Bids: " +  this.state.bids.length : "" }
+                                <div className="col-md-4 numBids">
+                                { ( this.state.bids.length > 0 ) 
+                                    ? 
+                                    <div>
+                                        <p>Number of Bids: { this.state.bids.length }</p>
+                                        <p>Current high bidder: { this.state.highBidder.username }</p>
+                                    </div>                                    
+                                    : 
+                                    ""                                 
+                                }                                 
                                 </div>
                             </div>
                             
                             
                             <div className="col-xs-2">
-                            <input type="text" className="form-control" id="txtBid" onChange={ e => this.setState({   bidInput: e.target.value })  } />
+                                <input type="number" className="form-control" id="txtBid" value={this.state.bidInput} onChange={ e => this.setState({   bidInput: e.target.value })  } />
                             </div> 
-                            <button id="btnPlaceBid" className="btn btn-primary btn-sm" onClick={ this.placeBid() }>Place Your Bid</button>
-                        </div>
+                            
+                            <button id="btnPlaceBid" className="btn btn-primary btn-sm" onClick={ this.placeBid.bind(this) }>Place Your Bid</button>
+                            { ( this.state.bids.length > 0 ) 
+                                 ?  
+                                    <div>
+                                        <p className="bidDirections">Enter ${ this.getHighestBid() + 1 } or higher</p>                                    
+                                    </div>
+                                 : 
+                                    <div>
+                                        <p className="bidDirections">Enter ${ this.state.auction.minPrice } or higher</p>  
+                                    </div>
+                            }
+                            </div>
+                            :
+                            <div className="row auctionSections">
+                                <strong><p>This listing has ended. Ending price is ${ this.state.currentBid  }</p>
+                                {( this.state.bids.length > 0 ) ? <p>Winning bidder: { this.state.highBidder.username }</p> : "" }
+                                </strong>
+                            </div>
+                        }                        
+
                         <div className="row">
                             <h4>Description:</h4>
-                            { this.props.viewItems[1].description }
+                            { this.state.sneaker.description }
                         </div>
-                    </div>                    
+                    </div>               
                
                     
                 
@@ -106,8 +257,127 @@ class Auction extends Component {
          )
     }
 
+    timeLeft() {
+        var newYear = new Date("2018-04-06 12:00:00"); 
+        newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1); 
+        $('#defaultCountdown').countdown({until: newYear}); 
+        
+        $('#removeCountdown').click(function() { 
+            var destroy = $(this).text() === 'Remove'; 
+            $(this).text(destroy ? 'Re-attach' : 'Remove'); 
+            $('#defaultCountdown').countdown(destroy ? 'destroy' : {until: newYear}); 
+        });
+    }
+
     placeBid() {
         // Check the bid entry
+
+        // Get the highest bid amount
+        var highestBid = this.getHighestBid();
+        
+        if (highestBid == 0) {
+            // No bids exist, use the minPrice of the auction
+            highestBid = this.state.auction.minPrice;
+        }
+        else {
+            // Bid exists. Add one to it for the next "eligible" bid amount
+            highestBid += 1; 
+        }
+
+        if (this.state.bidInput == "") {
+            // Make sure the bid amount is not empty
+            alert("Please enter a bid amount.");
+        }
+        else if (this.state.bidInput < highestBid) {
+            // Make sure the bid is not lower than the current amount (+ 1)
+            alert("Your bid is too low. Please enter a bid of at least $" + highestBid + ".");
+        }
+        else if (this.state.auction.endDate >= Date.now()) {
+            alert("Auction has expired. You cannot bid on this item anymore.");
+        }
+        else {
+            // console.log(this.state.bidInput);
+
+            // Bid amount is verified. Enter the bid for the user
+
+            // Make sure user is logged in
+            if (this.props.loggedInUser != "") {
+                // User is logged in. Place the bid.
+
+                // Make sure the user is not the seller of the item so they cannot run up the bid
+                if (this.props.loggedInUser.id == this.state.auction.sellerId) {
+                    alert("You are the seller of this item. You cannot bid on it.");
+                }
+                else {
+                    // Place the bid
+                    // Need the auctionId, the logged in user's ID (bidder), bid price and the current date
+                    
+                    // Get the current date in yyyy-mm-dd hh:mm:ss to place with the bid
+                    var d = new Date();
+                    var bidYear = d.getFullYear();
+                    var bidMonth = d.getMonth() + 1;
+                    if (bidMonth < 10) {
+                        // prepend a 0 to a single digit month
+                        bidMonth = this.returnLeadingZero(bidMonth);
+                    }   
+                    var bidDay = d.getDate();
+                    if (bidDay < 10) {
+                        // prepend a 0 to a single digit day
+                        bidDay = this.returnLeadingZero(bidDay);
+                    }
+                    var bidHour = d.getHours();
+                    if (bidHour < 10 ) {
+                        // prepend a 0 to a single digit hour
+                        bidHour = this.returnLeadingZero(bidHour);
+                    }
+                    var bidMinute = d.getMinutes();
+                    if (bidMinute < 10 ) {
+                        // prepend a 0 to a single digit minute
+                        bidMinute = this.returnLeadingZero(bidMinute);
+                    }
+                    var bidSeconds = d.getSeconds();
+                    if (bidSeconds < 10 ) {
+                        // prepend a 0 to a single digit second
+                        bidSeconds = this.returnLeadingZero(bidSeconds);
+                    }
+
+                    var bid = {
+                        auctionId: parseInt(this.props.match.params.auctionId),
+                        bidderId: this.props.loggedInUser.id,
+                        bidPrice: parseFloat(this.state.bidInput),
+                        bidDate: bidYear + '-' + bidMonth + '-' + bidDay + " " + bidHour + ":" + bidMinute + ":" + bidSeconds
+                    }
+
+                    // Post the entered bid to the bid table
+                    axios.post('http://localhost:5000/soled/bid', bid)
+                        .then( response => {
+                            if (response.status == 200) {
+                                alert("Your bid has been entered. You are now the high bidder.");
+
+                                // Update the current price section - get the bids of the auction
+                                this.getAuctionBids();
+
+                                // Clear the textbox
+                                this.setState({
+                                    bidInput: ""
+                                })
+                            }
+                        })
+                }
+            }
+            else {
+                // Anonymous user. Direct them to sign in
+                alert("You must sign in to place a bid.");
+                this.setState({ 
+                    redirect: true
+                   })
+            }
+        }
+    }
+
+    returnLeadingZero(num) {
+        // Prepends a zero if it is a single digit month, day, hour or minute
+        return '0' + num;
     }
     
 
@@ -124,9 +394,32 @@ class Auction extends Component {
 
                 // Set the evaluated bid to lastBid for comparison to the next value
                 lastBid = this.state.bids[i].bidPrice;
-            }
-
+            }             
+            
             return highestBid;
+        }
+        else {
+            return 0;
+        }
+        
+    }
+
+    getHighestBidderId() {
+        // Get the highest bid of the item
+        if (this.state.bids.length > 0) {
+            var highestBidder = 0;
+            var lastBid = 0;
+            for (var i = 0; i < this.state.bids.length; i++) {
+                // Check the bid price against the previous one. If it is higher, set to highestBid
+                if (this.state.bids[i].bidPrice > lastBid) {
+                    highestBidder = this.state.bids[i].bidderId;
+                }
+
+                // Set the evaluated bid to lastBid for comparison to the next value
+                lastBid = this.state.bids[i].bidPrice;
+            }             
+            
+            return highestBidder;
         }
         else {
             return 0;
@@ -149,7 +442,8 @@ class Auction extends Component {
 
 const MapStateToProps = state => {
     return {
-        viewItems: state.viewItems
+        viewItems: state.viewItems,
+        loggedInUser: state.loggedInUser
     }
 }
 

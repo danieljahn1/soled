@@ -17,7 +17,7 @@ namespace soled_backend
 
             if (_context.LoggedInUserId.Count() == 0)
             {
-                _context.LoggedInUserId.Add(new LogInSession(1));
+                // _context.LoggedInUserId.Add(new LogInSession(1));
 
                 _context.SaveChanges();
             }

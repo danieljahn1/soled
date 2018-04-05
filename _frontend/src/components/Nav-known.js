@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'
 import { userLogOut } from '../redux/actions'
 
-
 class NavKnown extends Component {
     constructor(props) {
         super(props)
@@ -18,13 +17,21 @@ class NavKnown extends Component {
 
     render() {
         return (
-            <nav className="col-md-6 pull-right nav-links">
-                <Link to="/"><button type="button" className="btn btn-success pull-right" onClick={this.logout.bind(this)}>LOG OUT, {this.props.loggedInUser[0].email} ?</button></Link>
-                <Link to="/userprofile"><button className="btn btn-warning pull-right">VIEW PROFILE</button></Link>
-                <Link to="/sneaker"><button className="btn btn-warning pull-right">VIEW SNEAKERS</button></Link>
+            <nav className="navbar navbar-default" style={{ marginBottom: "-10px" }}>
+                <div className="container-fluid" >
+                    <div className="navbar-header">
+                        <a className="navbar-brand" id="title" href="#">SOLEd!</a>
+                    </div>
+                    <div className="pull-right">
+                        <Link to="/viewsoles/"><button className=" btn btn-link">GET SOME SOLE</button></Link>
+                        <Link to="/createsole/"><button className="btn btn-link">SELL YOUR SOLE</button></Link>
+                        <Link to="/mysole/"><button className="btn btn-link">MY SOLE</button></Link>
+                        <Link to="/"><button className="btn btn-link" onClick={this.logout.bind(this)}>LOG OUT</button></Link>
+                    </div>
+                </div>
             </nav>
         )
     }
 }
 
-export default NavKnown;
+export default NavKnown

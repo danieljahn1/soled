@@ -7,12 +7,33 @@
 
   
 
-/* EM styles */
+/* EM styles */  
+
+  .auctionBox {
+    margin-top: 15px;
+  }
+
   .auctionSections {
-      margin: 10px 0;
-      background-color: lightgray;
-      padding: 5px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 10px 0;
+    border: 1px solid lightgrey;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .auctionSectionHeader {
+    border: 1px solid lightgrey;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .auctionHeader {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
   }
 
   .endAuction {
@@ -21,6 +42,31 @@
       font-weight: bold;
   }
 
+  .numBids {
+    margin-top: 10px;
+  }
+
+  .bidDirections {
+    font-size: 12px;
+  }
+
+  .auctionEnding {
+    color: red;
+  }
 
 
 /* End EM styles */
+
+#title {
+font-size: 35px;
+color: grey;
+}
+
+#jumbo {
+height: 280px
+}
+.btn-link {
+  font-size: 35px;
+  color: grey;
+  padding: 5px 40px;
+}
