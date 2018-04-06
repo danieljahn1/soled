@@ -96,6 +96,7 @@ class Home extends Component {
                             <p>{this.state.sneakers[1] && this.state.sneakers[1].description}</p>
                         </div>
                     </div>
+                    </div>
                     <div className="col-sm-4">
                         <div className="thumbnail">
                             <img src={this.state.sneakers[0].sneakerPics[0].path} alt="..." />
@@ -106,7 +107,6 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
         )
 
     }
