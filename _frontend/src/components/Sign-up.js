@@ -73,7 +73,7 @@ class SignUp extends Component {
     render() {
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to="/viewsoles" />
+            return <Redirect to="/welcome" />
         }
 
         return (
