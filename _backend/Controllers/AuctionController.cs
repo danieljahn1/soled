@@ -17,7 +17,7 @@ namespace soled_backend
 
             if (_context.Auctions.Count() == 0)
             {
-                Auction auction1 = new Auction(1, 1, DateTime.Parse("2018-04-01 12:00:00"), DateTime.Parse("2018-04-07 14:00:00"), 49.99, 500);
+                Auction auction1 = new Auction(1, 1, DateTime.Parse("2018-04-01 12:00:00"), DateTime.Parse("2018-04-05 16:22:00"), 199.99, 500);
                 auction1.WinnerId = 2;
                 _context.Auctions.Add(auction1);
                 // _context.Auctions.Add(new Auction(1, 1, DateTime.Parse("2018-04-01 12:00:00"), DateTime.Parse("2018-04-07 14:00:00"), 49.99, 500));
@@ -32,7 +32,7 @@ namespace soled_backend
                 _context.Auctions.Add(auction3);
                 // _context.Auctions.Add(new Auction(3, 1, DateTime.Parse("2018-03-29 11:30:00"), DateTime.Parse("2018-04-05 11:30:00"), 150, 250));
 
-                Auction auction4 = new Auction(4, 1, DateTime.Parse("2018-03-29 12:30:00"), DateTime.Parse("2018-04-05 12:00:00"), 500, 1000);
+                Auction auction4 = new Auction(4, 1, DateTime.Parse("2018-03-29 12:30:00"), DateTime.Parse("2018-04-05 14:10:00"), 500, 1000);
                 // auction4.WinnerId = 4;
                 _context.Auctions.Add(auction4);                
                 // _context.Auctions.Add(new Auction(4, 1, DateTime.Parse("2018-03-29 12:30:00"), DateTime.Parse("2018-04-05 12:00:00"), 500, 1000));
