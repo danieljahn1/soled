@@ -1,7 +1,7 @@
 
 const initialState = {
     viewItems: [{}],
-    loggedInUser: [],
+    loggedInUser: '',
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -15,6 +15,10 @@ const rootReducer = (state = initialState, action) => {
         case ("SET_LOGIN_SESSION"):
             state = {
                 ...state,
+                loggedInUser: action.payload
+            }
+        case ("CLEAR_LOGIN_SESSION"):
+            state = {
                 loggedInUser: action.payload
             }
     }
