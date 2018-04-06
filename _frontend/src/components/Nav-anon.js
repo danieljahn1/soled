@@ -12,7 +12,7 @@ class NavAnon extends Component {
             <nav id="nav" className="navbar navbar-default" style={{ marginBottom: "-10px" }}>
                 <div className="container-fluid" id="nav" >
                     <div className="navbar-header">
-                        <a className="navbar-brand" id="title" href="/">SOLEd!</a>
+                        <Link to="/" className="navbar-brand" id="title">SOLEd!</Link>
                     </div>
                     <div className="pull-right">
                         <Link to="/viewsoles"><button className=" btn btn-link"> GET SOME SOLE </button></Link>

@@ -75,11 +75,11 @@ class Home extends Component {
         return (
             <div>
                 <div id="jumbo" className="jumbotron" style={{ marginBottom: "5px" }}>
-                    <h1 className="display-4">Welcome to SOLEd.</h1>
+                    <h1 className="display-4">Welcome to SOLEd!</h1>
                     <hr className="my-4" />
-                    <p>Sell your SOLE.</p>
+                    <p>Sell your SOLE ...</p>
                     <p className="lead">
-                        <a className="btn btn-primary btn-lg" href="#" role="button">Sign up</a>
+                        <Link to="/signup"><button className="btn btn-primary btn-lg" href="#" role="button">Sign up</button></Link>
                     </p>
                 </div>
                 <div id="deck" className="card-deck">
