@@ -67,44 +67,42 @@ class Home extends Component {
 
         }
     }
-    
+
     componentDidMount() {
-        
+
     }
     render() {
         return (
             <div>
-                <div id="jumbo" className="jumbotron" style={{ marginBottom: "5px" }}>
-                    <h1 className="display-4">Welcome to SOLEd!</h1>
-                    <hr className="my-4" />
-                    <p>Sell your SOLE ...</p>
-                    <p className="lead">
-                        <Link to="/signup"><button className="btn btn-primary btn-lg" href="#" role="button">Sign up</button></Link>
-                    </p>
+                <div id="jumbo" className="jumbotron">
+                    <h1>Welcome to Soled!</h1>
+                    <p>Sell your sole or buy soles</p>
+                    <p><Link to="/signup"><button className="btn btn-primary btn-lg" href="#" role="button">Sign up</button></Link></p>
                 </div>
-                <div id="deck" className="card-deck">
-                    <div className="card">
-                        <img className="card-img-top" src={this.state.sneakers[2].sneakerPics[0].path} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">{this.state.sneakers[2] && this.state.sneakers[2].brand}</h5>
-                            <p className="card-text"> {this.state.sneakers[2] && this.state.sneakers[2].description} </p>
-                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                <div className="col-sm-4">
+                    <div className="thumbnail">
+                        <img src={this.state.sneakers[2].sneakerPics[0].path} alt="..." />
+                        <div className="caption">
+                            <h3>{this.state.sneakers[2] && this.state.sneakers[2].brand}</h3>
+                            <p>{this.state.sneakers[2] && this.state.sneakers[2].description}</p>
                         </div>
                     </div>
-                    <div className="card">
-                        <img className="card-img-top" src={this.state.sneakers[1].sneakerPics[0].path} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">{this.state.sneakers[1] && this.state.sneakers[1].brand}</h5>
-                            <p className="card-text"> {this.state.sneakers[1] && this.state.sneakers[1].description} </p>
-                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+                <div className="col-sm-4">
+                    <div className="thumbnail">
+                        <img src={this.state.sneakers[1].sneakerPics[0].path} alt="..." />
+                        <div className="caption">
+                            <h3>{this.state.sneakers[1] && this.state.sneakers[1].brand}</h3>
+                            <p>{this.state.sneakers[1] && this.state.sneakers[1].description}</p>
                         </div>
                     </div>
-                    <div className="card">
-                        <img className="card-img-top" src={this.state.sneakers[0].sneakerPics[0].path} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">{this.state.sneakers[0] && this.state.sneakers[0].brand}</h5>
-                            <p className="card-text"> {this.state.sneakers[0] && this.state.sneakers[0].description} </p>
-                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                    <div className="col-sm-4">
+                        <div className="thumbnail">
+                            <img src={this.state.sneakers[0].sneakerPics[0].path} alt="..." />
+                            <div className="caption">
+                                <h3>{this.state.sneakers[0] && this.state.sneakers[0].brand}</h3>
+                                <p>{this.state.sneakers[0] && this.state.sneakers[0].description}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
