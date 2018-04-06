@@ -16,10 +16,10 @@ namespace soled_backend
 
             if (_context.Users.Count() == 0)
             {
-            _context.Users.Add(new User("andrew", "aanderson@email.com", "abc123", "3 Bay Meadows Avenue", null, "Huntington Beach", "CA", 92647, "USA", ""));
-            _context.Users.Add(new User("daniel", "dahn@email.com", "abc123", "669 Fairfield St.", null, "Santa Ana", "CA", 92707, "USA", ""));
-            _context.Users.Add(new User("eric", "emasinas@email.com", "abc123", "5432 Belle Ave", null, "Cypress", "CA", 90630, "USA", ""));
-            _context.Users.Add(new User("lewis", "laguilar@email.com", "abc123", "573 Market Lane", null, "Anaheim", "CA", 92805, "USA", ""));
+            _context.Users.Add(new User("Andrew", "aanderson@email.com", "abc123", "3 Bay Meadows Avenue", "", "Huntington Beach", "CA", 92647, "USA", "http://nflshop.frgimages.com/FFImage/thumb.aspx?i=/productImages%2F_633000%2Fff_633362_full.jpg&w=600"));
+            _context.Users.Add(new User("Daniel", "dahn@email.com", "abc123", "669 Fairfield St.", "", "Santa Ana", "CA", 92707, "USA", "https://cdn.bleacherreport.net/images/team_logos/328x328/detroit_lions.png"));
+            _context.Users.Add(new User("Eric", "emasinas@email.com", "abc123", "5432 Belle Ave", "", "Cypress", "CA", 90630, "USA", "https://cconnect.s3.amazonaws.com/wp-content/uploads/2014/10/Los-Angeles-Kings-2014-Stanley-Cup-Ring.jpg"));
+            _context.Users.Add(new User("Lewis", "laguilar@email.com", "abc123", "573 Market Lane", "", "Anaheim", "CA", 92805, "USA", "https://i.pinimg.com/736x/5e/60/0e/5e600e5c89a24460ad6b70cfe7e96564.jpg"));
 
             _context.SaveChanges();
             }

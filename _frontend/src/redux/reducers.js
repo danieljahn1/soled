@@ -1,7 +1,7 @@
 
 const initialState = {
     viewItems: [{}],
-    loggedInUser: [],
+    loggedInUser: '',
     eventLastViewed: ""
 }
 
@@ -25,7 +25,11 @@ const rootReducer = (state = initialState, action) => {
                 eventLastViewed: action.payload
             }
             break;
-            
+        case ("CLEAR_LOGIN_SESSION"):
+            state = {
+                loggedInUser: action.payload
+            }
+            break;
     }
     
     return state;

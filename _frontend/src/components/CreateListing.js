@@ -21,7 +21,7 @@ class CreateListing extends Component {
             addStartDate: '',
             addEndDate: '',
             addMinPrice: '',
-            addMaxPrice: '',
+            addMaxPrice: 999999999999,
             auctionId: '',
             redirect: false
         }
@@ -81,34 +81,37 @@ class CreateListing extends Component {
 
     auctionPublish(e) {
         if (this.state.addStartDate != '' && this.state.addEndDate != '' && this.state.addMinPrice != '' && this.state.addMaxPrice != '') {
-        e.preventDefault();
-        var body = {
-            sneakerId: this.state.addSneakerId,
-            sellerId: this.state.addSellerId,
-            startDate: this.state.addStartDate,
-            endDate: this.state.addEndDate,
-            minPrice: this.state.addMinPrice,
-            maxPrice: this.state.addMaxPrice
-        }
-        axios.post('http://localhost:5000/soled/auction', body)
-            .then(response => {
-                this.setState({
-                    auctionId: response.data.id,
-                    redirect: true
+            e.preventDefault();
+            var body = {
+                sneakerId: this.state.addSneakerId,
+                sellerId: this.state.addSellerId,
+                startDate: this.state.addStartDate,
+                endDate: this.state.addEndDate,
+                minPrice: this.state.addMinPrice,
+                maxPrice: this.state.addMaxPrice
+            }
+            axios.post('http://localhost:5000/soled/auction', body)
+                .then(response => {
+                    this.setState({
+                        auctionId: response.data.id,
+                        redirect: true
+                    })
                 })
-            })
         }
     }
 
     render() {
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to={"/auction/" + this.state.auctionId} />
+            return <Redirect to={"/sole/" + this.state.auctionId} />
         }
 
         return (
-            <div>
-                <h2>Publish A New Listing</h2>
+            <div className="col-md-12">
+                <h1></h1>
+                <div>
+                    <h2>Sell Your Sole</h2>
+                </div>
                 {(this.state.formA)
                     ?
                     <div className="col-md-6 forms">
@@ -192,7 +195,7 @@ class CreateListing extends Component {
                                 <img src={this.state.addImage1} alt="sneaker image" width="250" />
                                 <h1></h1>
                                 <div className="col-md-6 forms">
-                                    <h3>Publish An Auction</h3>
+                                    <h3>Start An Auction</h3>
                                     <h1></h1>
                                     <form className="col-md-12">
                                         <div className="form-group">
@@ -205,15 +208,15 @@ class CreateListing extends Component {
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="auction-min-price">Min Price</label> */}
-                                            <input type="number" className="form-control" id="auction-min-price" placeholder="Min Price" value={this.state.addMinPrice} onChange={(e) => { this.setState({ addMinPrice: e.target.value }) }} required />
+                                            <input type="number" className="form-control" id="auction-min-price" placeholder="Opening Bid Minimum" value={this.state.addMinPrice} onChange={(e) => { this.setState({ addMinPrice: e.target.value }) }} required />
                                         </div>
                                         <div className="form-group">
                                             {/* <label htmlFor="auction-max-price">Max Price</label> */}
-                                            <input type="number" className="form-control" id="auction-max-price" placeholder="Max Price" value={this.state.addMaxPrice} onChange={(e) => { this.setState({ addMaxPrice: e.target.value }) }} required />
+                                            {/* <input type="number" className="form-control" id="auction-max-price" placeholder="Max Price" value={this.state.addMaxPrice} onChange={(e) => { this.setState({ addMaxPrice: e.target.value }) }} required /> */}
                                             {/* <small className="form-text" id="auction-max-price-help">max price</small> */}
                                         </div>
                                         <h1></h1>
-                                        <button type="submit" className="btn btn-success btn-block" onClick={this.auctionPublish.bind(this)}>Publish Auction</button>
+                                        <button type="submit" className="btn btn-success btn-block" onClick={this.auctionPublish.bind(this)}>Start Auction</button>
                                         <h1></h1>
                                     </form>
                                 </div>
