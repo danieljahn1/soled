@@ -1,7 +1,8 @@
 
 const initialState = {
     viewItems: [{}],
-    loggedInUser: [],
+    loggedInUser: '',
+    eventLastViewed: ""
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -17,6 +18,18 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 loggedInUser: action.payload
             }
+            break;
+        case ("AUCTION_REDIRECT"):
+            state = {
+                ...state,
+                eventLastViewed: action.payload
+            }
+            break;
+        case ("CLEAR_LOGIN_SESSION"):
+            state = {
+                loggedInUser: action.payload
+            }
+            break;
     }
     
     return state;

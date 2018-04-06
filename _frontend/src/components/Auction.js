@@ -4,6 +4,8 @@ import { Link, Redirect } from 'react-router-dom'
 
 import axios from 'axios';
 
+import { redirectToAuction } from '../redux/actions'
+
 class Auction extends Component {
     constructor(props) {
         super(props);
@@ -68,9 +70,27 @@ class Auction extends Component {
                                 // Get the bids
                                 self.getAuctionBids();
 
-                                alert("Auction has ended. The winner is " + self.state.highBidder.username);
+                                
                                 // Get the highest bidder's user ID and set to the auction's WinnerID
                                 
+                                var auctionUpdate  = {
+                                    id: self.state.auction.id,
+                                    sneakerId: self.state.auction.sneakerId,
+                                    sellerId: self.state.auction.sellerId,
+                                    startDate: self.state.auction.startDate,
+                                    endDate: self.state.auction.endDate,
+                                    minPrice: self.state.auction.minPrice,
+                                    maxPrice: self.state.auction.maxPrice,
+                                    winnerId: self.state.highBidder.id,
+                                    completePayment: false
+                                }
+
+                                axios.put('http://localhost:5000/soled/auction/' + self.state.auction.id, auctionUpdate )
+                                    .then (response => {
+                                        if (response.status == 200) (
+                                            alert("Auction has ended. The winner is " + self.state.highBidder.username)
+                                        )
+                                    })
                             }
                             
                         }
@@ -87,7 +107,6 @@ class Auction extends Component {
         // Get the bids of the auction
         axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
             .then (bidResponse => {
-                // console.log(bidResponse.data);
 
                 this.setState({
                     bids: bidResponse.data,
@@ -108,7 +127,6 @@ class Auction extends Component {
                 // Get the highest bidder user
                 axios.get('http://localhost:5000/soled/user/id/' + this.state.highBidderId)
                 .then (highBidResponse  => {
-                    // console.log(highBidResponse.data);
 
                     this.setState({
                         highBidder: highBidResponse.data
@@ -368,6 +386,8 @@ class Auction extends Component {
             else {
                 // Anonymous user. Direct them to sign in
                 alert("You must sign in to place a bid.");
+
+                this.props.setAuctionViewed(this.state.auction.id);
                 this.setState({ 
                     redirect: true
                    })
@@ -444,6 +464,12 @@ const MapStateToProps = state => {
     return {
         viewItems: state.viewItems,
         loggedInUser: state.loggedInUser
+    }
+}
+
+const MapDispatchToProps = dispatch => {
+    return {
+        setAuctionViewed: auctionId => dispatch(joinEventAnon(auctionId))
     }
 }
 

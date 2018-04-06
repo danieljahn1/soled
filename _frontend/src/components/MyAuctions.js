@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 class MyAuctions extends Component {
     constructor(props) {
@@ -51,46 +52,54 @@ class MyAuctions extends Component {
             <div>
                 <h3 className="col-md-12">My Listings</h3>
                 <div className="col-md-12">
-                    {this.state.allSneakersArr.map((item, index) => this.state.myAuctionsArr.filter(auctions => auctions.sneakerId == item.id).map(auction =>
-                        <div className="col-md-4" key={auction.id}>
-                            {/* <div>Id: {auction.id}</div> */}
-                            <div> {item.brand}, {item.model}, {item.version} </div>
-                            <div>Size: {item.size}</div>
-                            <div>Seller: {auction.sellerId}</div>
-                            <div>Start Date: {auction.startDate}</div>
-                            <div>End Date: {auction.endDate}</div>
-                            <div>Start Price: ${auction.minPrice}</div>
-                            <div>End Price: ${auction.maxPrice}</div>
-                            <div>Winner: {auction.winnerId}</div>
-                            <div>Brand: {item.brand}</div>
-                            <img src={item.sneakerPics[0].path} alt="auction sneaker image" width="250" />
-                            <h1></h1>
-                            {(!item.completetPayment)
-                                ?
-                                <button className="btn"></button>
-                                :
-                                <button className="btn"></button>
-                            }
-                            <h1></h1>
-                        </div>
-                    ))}
+                    {
+                        // this.state.allUsersArr.map((seller, index) => this.state.myAuctionsArr.filter(auctions => auctions.sellerId == seller.id).map(auction =>
+                        //     this.state.allUsersArr.map((winner, index) => this.state.myAuctionsArr.filter(auctions => auctions.winnerId == winner.id).map(auction =>
+                                this.state.allSneakersArr.map((sneaker, index) => this.state.myAuctionsArr.filter(auctions => auctions.sneakerId == sneaker.id).map(auction =>
+                                    <div className="col-md-4" key={auction.id}>
+                                        {/* <div>Id: {auction.id}</div> */}
+                                        <h3> {sneaker.brand}, {sneaker.model}, {sneaker.version} </h3>
+                                        <div>Size: {sneaker.size}</div>
+                                        {/* <div>Seller: {seller.username}</div> */}
+                                        <div>Seller: {auction.sellerId}</div>
+                                        <div>Start Date: {auction.startDate}</div>
+                                        <div>End Date: {auction.endDate}</div>
+                                        <div>Start Price: ${auction.minPrice}</div>
+                                        {/* <div>End Price: ${auction.maxPrice}</div> */}
+                                        {/* <div>Winner: {winner.username}</div> */}
+                                        <div>Winner: {auction.winnerId}</div>
+                                        <div>Brand: {sneaker.brand}</div>
+                                        <Link to={"/sole/" + auction.id}><img src={sneaker.sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
+                                        <h1></h1>
+                                        {(!auction.completetPayment)
+                                            ?
+                                            <button className="btn"></button>
+                                            :
+                                            <button className="btn"></button>
+                                        }
+                                        <h1></h1>
+                                    </div>
+                                ))
+                        //     ))
+                        // ))
+                    }
                 </div>
                 <h3 className="col-md-12">My Winnings</h3>
                 <div className="col-md-12">
-                    {this.state.allSneakersArr.map((item, index) => this.state.myWinningsArr.filter(auctions => auctions.sneakerId == item.id).map(auction =>
+                    {this.state.allSneakersArr.map((sneaker, index) => this.state.myWinningsArr.filter(auctions => auctions.sneakerId == sneaker.id).map(auction =>
                         <div className="col-md-4" key={auction.id}>
                             {/* <div>Id: {auction.id}</div> */}
-                            <div> {item.brand}, {item.model}, {item.version} </div>
-                            <div>Size: {item.size}</div>
+                            <h3> {sneaker.brand}, {sneaker.model}, {sneaker.version} </h3>
+                            <div>Size: {sneaker.size}</div>
                             <div>Seller: {auction.sellerId}</div>
                             <div>Start Date: {auction.startDate}</div>
                             <div>End Date: {auction.endDate}</div>
                             <div>Start Price: ${auction.minPrice}</div>
-                            <div>End Price: ${auction.maxPrice}</div>
+                            {/* <div>End Price: ${auction.maxPrice}</div> */}
                             <div>Winner: {auction.winnerId}</div>
-                            <img src={item.sneakerPics[0].path} alt="auction sneaker image" width="250" />
+                            <Link to={"/sole/" + auction.id}><img src={sneaker.sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
                             <h1></h1>
-                            {(!item.completePayment)
+                            {(!auction.completePayment)
                                 ?
                                 <button className="btn btn-primary">Complete Transaction</button>
                                 :

@@ -52,13 +52,12 @@ namespace soled_backend
             return logInSession;
         }
 
-        [HttpDelete("{id}")]
-        public LogInSession LogOutUser(int id)
+        [HttpDelete]
+        public void LogOutUser()
         {
-            var found = _context.LoggedInUserId.FirstOrDefault(l => l.Id == id);
-            _context.LoggedInUserId.Remove(found);
+            var found = _context.LoggedInUserId;
+            _context.LoggedInUserId.RemoveRange(found);
             _context.SaveChanges();
-            return found;
         }
     }
 }

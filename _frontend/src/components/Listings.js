@@ -35,8 +35,8 @@ class Listings extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                All Sneaker Auction Listings                
+            <div className="container-fluid auctionBox">
+                               
                 {
                     this.state.sneakers.map( item => 
                     this.state.auctions.filter(auc => auc.sneakerId == item.id )
@@ -44,7 +44,9 @@ class Listings extends React.Component {
                         <div className="panel panel-default" key={ item.id }>
                             <div className="panel-body">
                                 <div className="col-md-3">
+                                    <Link to={'/sole/' + aucItem.id}>
                                     <img src={ item.sneakerPics[0].path } className="img-responsive" width="250" />
+                                    </Link>
                                 </div>
                                 <div className="row col-md-8">
                                     <Link to={'/sole/' + aucItem.id}>
