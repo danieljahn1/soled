@@ -52,7 +52,7 @@ namespace soled_backend
         [HttpGet("login/{login}+{password}")]
         public User GetUserByLoginPassword(string login, string password)
         {
-            return _context.Users.FirstOrDefault(u => (u.Email == login || u.Username == login) && u.Password == password);
+            return _context.Users.FirstOrDefault(u => (u.Email.ToLower() == login.ToLower() || u.Username.ToLower() == login.ToLower()) && u.Password == password);
         }
 
         [HttpPost]

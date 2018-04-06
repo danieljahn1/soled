@@ -40,7 +40,8 @@ class NavKnown extends Component {
                         <Link to="/viewsoles/"><button className=" btn btn-link">GET SOME SOLE</button></Link>
                         <Link to="/createsole/"><button className="btn btn-link">SELL YOUR SOLE</button></Link>
                         <Link to="/mysole/"><button className="btn btn-link">MY SOLE</button></Link>
-                        <Link to="/"><button className="btn btn-link" onClick={this.logout.bind(this)}>LOG OUT</button></Link>
+                        {/* <Link to="/"><button className="btn btn-link" onClick={this.logout.bind(this)}>LOG OUT</button></Link> */}
+                        <a href="/" className="btn btn-link" >LOG OUT</a>
                     </div>
                 </div>
             </nav >
