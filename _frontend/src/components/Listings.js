@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { connect } from 'react-redux';
 
-import { setViewItem } from '../redux/actions'
 
 class Listings extends React.Component {
     constructor(props) {
@@ -79,16 +77,6 @@ class Listings extends React.Component {
 
     }
 
-    // auctionItemToRedux(auction, e) {
-    //      //onClick={ this.auctionItemToRedux.bind(this, aucItem) }
-    //     // Get the sneaker associated with the auction
-    //     var viewSneaker = this.state.sneakers.filter(item => item.id == auction.sneakerId)[0]
-    //     // console.log([auction, viewSneaker]);
-
-    //     // Set the auction and the sneaker to redux. Array 0 is the auction Array 1 is the sneaker
-    //     this.props.setViewAuctionItem([auction, viewSneaker]);
-    // }
-
     formatDate(d) {
         // Format the date from yyyy-mm-dd into MM/dd/yyyy for display
         var year = d.substr(0,4);
@@ -103,16 +91,5 @@ class Listings extends React.Component {
 
 }
 
-// const MapStateToProps = state => {
-//     return {
-//         
-//     }
-// }
 
-const MapDispatchToProps = dispatch => {
-    return {
-        setViewAuctionItem: viewItem => dispatch(setViewItem(viewItem))
-    }
-}
-
-export default  connect(null, MapDispatchToProps)(Listings)
+export default Listings

@@ -43,9 +43,16 @@ class SignIn extends Component {
         }
     }
 
+    goToAuctionUrl() {
+        return "/sole/" + this.props.auctionLastViewed;
+    }
+
     render() {
         const { redirect } = this.state;
-        if (redirect) {
+        if (redirect && this.props.auctionLastViewed.length != 0) {
+            return <Redirect to={ this.goToAuctionUrl() } />
+        }
+        else if (redirect) {
             return <Redirect to="/viewsoles" />
         }
 
@@ -75,6 +82,7 @@ class SignIn extends Component {
 const mapStateToProps = state => {
     return {
         userInSession: state.loggedInUser,
+        auctionLastViewed: state.auctionLastViewed
     }
 }
 
