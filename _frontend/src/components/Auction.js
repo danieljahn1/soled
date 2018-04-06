@@ -18,7 +18,6 @@ class Auction extends Component {
             bids: [],
             bidInput: "",
             currentBid: "",
-            highBidderId: 0,
             highBidder: {}  
         }
 
@@ -28,7 +27,6 @@ class Auction extends Component {
         // Get the auction data
         axios.get('http://localhost:5000/soled/auction/' + this.props.match.params.auctionId) 
             .then (response => {
-                // console.log(response.data);
                 if (response.status == 200) {
                     this.setState({
                         auction: response.data
@@ -37,7 +35,6 @@ class Auction extends Component {
                     // Get the sneaker associated with the auction
                     axios.get('http://localhost:5000/soled/sneaker/' + this.state.auction.sneakerId)
                         .then (sneakerResponse => {
-                            // console.log(sneakerResponse.data);
                             
                             this.setState({
                                 sneaker: sneakerResponse.data
@@ -47,7 +44,6 @@ class Auction extends Component {
                     // Get the seller of the auction
                     axios.get('http://localhost:5000/soled/user/id/' + this.state.auction.sellerId)
                     .then (sellerResponse => {
-                        // console.log(sellerResponse.data);
 
                         this.setState({
                             seller: sellerResponse.data
@@ -57,40 +53,21 @@ class Auction extends Component {
                     // Get the bids of the auction
                     this.getAuctionBids();
 
+
+
                     // Set up the countdown timer
                     var endDate = this.state.auction.endDate;
                     var self = this;
                     $(function () {                        
                         var checkAuctionStatus = function() {
                             // Auction ended. Set the winner of the auction based on the highest bid
-                            console.log("timer ended", self.state.auction.endDate);
+                            
                             if ( new Date(Date.now()) >= new Date(self.state.auction.endDate) ) {
-                                // Auction is over
-                                
+                                // Auction is over                                
                                 // Get the bids
-                                self.getAuctionBids();
-
-                                
                                 // Get the highest bidder's user ID and set to the auction's WinnerID
+                                self.checkAuctionWinner();
                                 
-                                var auctionUpdate  = {
-                                    id: self.state.auction.id,
-                                    sneakerId: self.state.auction.sneakerId,
-                                    sellerId: self.state.auction.sellerId,
-                                    startDate: self.state.auction.startDate,
-                                    endDate: self.state.auction.endDate,
-                                    minPrice: self.state.auction.minPrice,
-                                    maxPrice: self.state.auction.maxPrice,
-                                    winnerId: self.state.highBidder.id,
-                                    completePayment: false
-                                }
-
-                                axios.put('http://localhost:5000/soled/auction/' + self.state.auction.id, auctionUpdate )
-                                    .then (response => {
-                                        if (response.status == 200) (
-                                            alert("Auction has ended. The winner is " + self.state.highBidder.username)
-                                        )
-                                    })
                             }
                             
                         }
@@ -109,8 +86,7 @@ class Auction extends Component {
             .then (bidResponse => {
 
                 this.setState({
-                    bids: bidResponse.data,
-                    
+                    bids: bidResponse.data                    
                 });
                 
                 // Get the high bid and bidderID and set in state to display
@@ -119,19 +95,49 @@ class Auction extends Component {
                     currentBid: highBid
                 });
 
-                var highBidderId = this.getHighestBidderId();
-                this.setState({
-                    highBidderId: highBidderId
-                });
-
                 // Get the highest bidder user
-                axios.get('http://localhost:5000/soled/user/id/' + this.state.highBidderId)
+                axios.get('http://localhost:5000/soled/user/id/' + this.getHighestBidderId())
                 .then (highBidResponse  => {
 
                     this.setState({
                         highBidder: highBidResponse.data
                     })
                 })
+            })
+    }
+
+    checkAuctionWinner() {
+        // Check if the auction is expired. If so then declare a winner
+        if ( new Date(Date.now()) >= new Date(this.state.auction.endDate) ) {
+            // Auction is over                                
+            // Get the bids
+            this.getAuctionBids();
+            
+            // Get the highest bidder's user ID and set to the auction's WinnerID
+            this.setAuctionWinner();
+        }
+    }
+
+    setAuctionWinner() {
+         // Get the highest bidder's user ID and set to the auction's WinnerID
+                                
+         var auctionUpdate  = {
+            id: this.state.auction.id,
+            sneakerId: this.state.auction.sneakerId,
+            sellerId: this.state.auction.sellerId,
+            startDate: this.state.auction.startDate,
+            endDate: this.state.auction.endDate,
+            minPrice: this.state.auction.minPrice,
+            maxPrice: this.state.auction.maxPrice,
+            winnerId: this.state.highBidder.id,
+            completePayment: false
+        }
+
+        axios.put('http://localhost:5000/soled/auction/' + this.state.auction.id, auctionUpdate )
+            .then (response => {
+                // if (response.status == 200) (
+                //     // alert("Auction has ended. The winner is " + this.state.highBidder.username)
+                // )
             })
     }
     
@@ -275,18 +281,6 @@ class Auction extends Component {
          )
     }
 
-    timeLeft() {
-        var newYear = new Date("2018-04-06 12:00:00"); 
-        newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1); 
-        $('#defaultCountdown').countdown({until: newYear}); 
-        
-        $('#removeCountdown').click(function() { 
-            var destroy = $(this).text() === 'Remove'; 
-            $(this).text(destroy ? 'Re-attach' : 'Remove'); 
-            $('#defaultCountdown').countdown(destroy ? 'destroy' : {until: newYear}); 
-        });
-    }
-
     placeBid() {
         // Check the bid entry
 
@@ -314,8 +308,6 @@ class Auction extends Component {
             alert("Auction has expired. You cannot bid on this item anymore.");
         }
         else {
-            // console.log(this.state.bidInput);
-
             // Bid amount is verified. Enter the bid for the user
 
             // Make sure user is logged in
@@ -387,7 +379,7 @@ class Auction extends Component {
                 // Anonymous user. Direct them to sign in
                 alert("You must sign in to place a bid.");
 
-                this.props.setAuctionViewed(this.state.auction.id);
+                this.props.setAuctionViewed(this.props.match.params.auctionId);
                 this.setState({ 
                     redirect: true
                    })
@@ -463,15 +455,16 @@ class Auction extends Component {
 const MapStateToProps = state => {
     return {
         viewItems: state.viewItems,
-        loggedInUser: state.loggedInUser
+        loggedInUser: state.loggedInUser,
+        auctionLastViewed: state.auctionLastViewed
     }
 }
 
 const MapDispatchToProps = dispatch => {
     return {
-        setAuctionViewed: auctionId => dispatch(joinEventAnon(auctionId))
+        setAuctionViewed: auctionId => dispatch(redirectToAuction(auctionId))
     }
 }
 
  
-export default connect(MapStateToProps)(Auction);
+export default connect(MapStateToProps,MapDispatchToProps)(Auction);

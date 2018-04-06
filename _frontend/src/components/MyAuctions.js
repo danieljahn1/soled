@@ -7,10 +7,16 @@ class MyAuctions extends Component {
         super(props);
         this.state = {
             myUserId: '',
+
+            allAuctionsArr: [],
             myAuctionsArr: [],
             myWinningsArr: [],
+
             allUsersArr: [],
-            allSneakersArr: []
+            allSneakersArr: [],
+
+            usersAuctions: [],
+            sneakersAuctionsArr: []
         }
     }
 
@@ -24,25 +30,27 @@ class MyAuctions extends Component {
                 axios.get('http://localhost:5000/soled/auction/')
                     .then(response => {
                         this.setState({
+                            allAuctionsArr: response.data,
                             myAuctionsArr: response.data.filter(auction => auction.sellerId == this.state.myUserId),
-                            myWinningsArr: response.data.filter(auction => auction.winnerId == this.state.myUserId)
+                            myWinningsArr: response.data.filter(auction => auction.winnerId == this.state.myUserId),
                         })
-                        console.log(this.state.myAuctionsArr)
-                        console.log(this.state.myWinningsArr)
+                        // console.log(this.state.myAuctionsArr)
+                        // console.log(this.state.myWinningsArr)
+                        // console.log(this.state.allAuctionsArr)
                     })
                 axios.get('http://localhost:5000/soled/user/')
                     .then(response => {
                         this.setState({
                             allUsersArr: response.data
                         })
-                        console.log(this.state.allUsersArr)
+                        // console.log(this.state.allUsersArr)
                     })
                 axios.get('http://localhost:5000/soled/sneaker/')
                     .then(response => {
                         this.setState({
                             allSneakersArr: response.data
                         })
-                        console.log(this.state.allSneakersArr)
+                        // console.log(this.state.allSneakersArr)
                     })
             })
     }
@@ -80,7 +88,7 @@ class MyAuctions extends Component {
                                         <h1></h1>
                                     </div>
                                 ))
-                        //     ))
+                            // ))
                         // ))
                     }
                 </div>
