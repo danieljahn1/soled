@@ -39,6 +39,40 @@ class Listings extends React.Component {
                     this.state.sneakers.map( item => 
                     this.state.auctions.filter(auc => auc.sneakerId == item.id )
                     .map( aucItem => 
+                        ( new Date(Date.now()) >= new Date(aucItem.endDate) )
+                        ?
+                        // Expired listing
+                        <div className="panel panel-default" key={ item.id }>
+                            <div className="panel-body listingExpired">
+                                <div className="col-md-3">
+                                    <Link to={'/sole/' + aucItem.id}>
+                                    <img src={ item.sneakerPics[0].path } className="img-responsive listingImgExpired" width="250" />
+                                    </Link>
+                                </div>
+                                <div className="row col-md-8">
+                                    <Link to={'/sole/' + aucItem.id}>
+                                    { item.brand } { item.model} { item.style } { item.version}
+                                    &nbsp;Size&nbsp;{ item.size } 
+                                    </Link>
+                                </div>
+                                <div className="row col-md-8">                            
+                                {
+                                    
+                                        <div key={aucItem.id}>
+                                            <strong>Starts at ${ aucItem.minPrice }</strong>
+                                            <p>Starts at: {this.formatDate(aucItem.startDate)}&nbsp;&nbsp;
+                                            Ends at: {this.formatDate(aucItem.endDate)}</p>
+                                            <p className="listingExpiredText"><strong>This listing has expired.</strong></p>
+                                        </div>
+
+                                    
+                                }
+                                </div>
+                                    
+                            </div> 
+                        </div>
+                        :
+                        // Active listing
                         <div className="panel panel-default" key={ item.id }>
                             <div className="panel-body">
                                 <div className="col-md-3">

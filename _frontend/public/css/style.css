@@ -54,6 +54,17 @@
     color: red;
   }
 
+  .listingExpired {
+    color: silver;
+  }
+
+  .listingImgExpired {
+    opacity: 0.3;
+  }
+
+  .listingExpiredText {
+    color: black;
+  }
 
 /* End EM styles */
 

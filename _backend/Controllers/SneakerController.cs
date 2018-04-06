@@ -23,7 +23,8 @@ namespace soled_backend
                 _context.Sneakers.Add(sneaker1);
                 
                 Sneaker sneaker2 = new Sneaker("Reebok", "11.5", "Pump", "White", "v1", "Good");
-                sneaker2.SneakerPics.Add(new SneakerImage("https://i.pinimg.com/originals/ed/7c/bc/ed7cbc373674f7644dea3e9e228e9242.jpg"));
+                sneaker2.SneakerPics.Add(new SneakerImage("https://www.sneakerfiles.com/wp-content/uploads/2014/06/reebok-pump-omni-lite-og-white-black-orange-releasing-friday.jpg"));
+                sneaker2.SneakerPics.Add(new SneakerImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQolnSYHlx02KXxXjZP6JhLMLB2KLP0_mKvL9oFz9MFxeYDxKc"));
                 sneaker2.Description = "New with box: A brand-new, unused, and unworn item (including handmade items) in the original packaging (such as the original box or bag) and/or with the original tags attached";
                 _context.Sneakers.Add(sneaker2);
 

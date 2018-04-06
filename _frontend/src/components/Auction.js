@@ -18,9 +18,10 @@ class Auction extends Component {
             bids: [],
             bidInput: "",
             currentBid: "",
-            highBidder: {}  
+            highBidder: {},
+            winnerId: 0
         }
-
+        
     }
 
     componentDidMount() {
@@ -52,8 +53,7 @@ class Auction extends Component {
 
                     // Get the bids of the auction
                     this.getAuctionBids();
-
-
+                    
 
                     // Set up the countdown timer
                     var endDate = this.state.auction.endDate;
@@ -65,19 +65,23 @@ class Auction extends Component {
                             if ( new Date(Date.now()) >= new Date(self.state.auction.endDate) ) {
                                 // Auction is over                                
                                 // Get the bids
+                                self.getAuctionBids();
+
                                 // Get the highest bidder's user ID and set to the auction's WinnerID
-                                self.checkAuctionWinner();
-                                
-                            }
-                            
+                                self.setAuctionWinner();                                
+                            }                            
                         }
+
                         var endAuction = new Date(endDate);
                         $('#auctionCountdown').countdown({until: endAuction, onExpiry: checkAuctionStatus });
                     });
 
+                    
+
                 }
 
             })
+            
     }
 
     getAuctionBids() {
@@ -94,15 +98,18 @@ class Auction extends Component {
                 this.setState({
                     currentBid: highBid
                 });
-
+                
                 // Get the highest bidder user
-                axios.get('http://localhost:5000/soled/user/id/' + this.getHighestBidderId())
+                var highBidID = this.getHighestBidderId();
+                axios.get('http://localhost:5000/soled/user/id/' + highBidID )
                 .then (highBidResponse  => {
-
+                    
                     this.setState({
-                        highBidder: highBidResponse.data
-                    })
-                })
+                        highBidder: highBidResponse.data,
+                        winnerId: highBidID
+                    });
+                })                
+                
             })
     }
 
@@ -110,12 +117,10 @@ class Auction extends Component {
         // Check if the auction is expired. If so then declare a winner
         if ( new Date(Date.now()) >= new Date(this.state.auction.endDate) ) {
             // Auction is over                                
-            // Get the bids
-            this.getAuctionBids();
-            
             // Get the highest bidder's user ID and set to the auction's WinnerID
             this.setAuctionWinner();
         }
+        
     }
 
     setAuctionWinner() {
@@ -129,15 +134,15 @@ class Auction extends Component {
             endDate: this.state.auction.endDate,
             minPrice: this.state.auction.minPrice,
             maxPrice: this.state.auction.maxPrice,
-            winnerId: this.state.highBidder.id,
+            winnerId: this.state.winnerId,
             completePayment: false
         }
 
         axios.put('http://localhost:5000/soled/auction/' + this.state.auction.id, auctionUpdate )
             .then (response => {
-                // if (response.status == 200) (
-                //     // alert("Auction has ended. The winner is " + this.state.highBidder.username)
-                // )
+                // if (response.status == 200) {
+                //     console.log("Done");
+                // }
             })
     }
     
@@ -157,7 +162,13 @@ class Auction extends Component {
                         <div className="row">   
                         
                            { this.state.sneaker.sneakerPics != undefined &&
-                             (<img src={ this.state.sneaker.sneakerPics[0].path } className="img-responsive" width="400" />
+                             (
+                             this.state.sneaker.sneakerPics.map( item => 
+                                    <div key={ item.id }>
+                                        <img src={ item.path } className="img-responsive" width="400" />
+                                    </div>
+                                )
+                             
                              )
                             }
                         </div>
@@ -202,7 +213,7 @@ class Auction extends Component {
                             }</p>
                             {
                                 <div>
-                                    {/* If the auction is within two hours of ending, change the display. 7200 is seconds */}
+                                    {/* If the auction is within two hours of ending, change the display. Time calculation below returns value in seconds. 7200 is the number of  seconds for two hours. */}
                                     { ( (new Date(this.state.auction.endDate).getTime() - new Date(Date.now()).getTime() ) / 1000 <= 7200  )
                                         ?
                                             ( new Date(Date.now()) >= new Date(this.state.auction.endDate) )
