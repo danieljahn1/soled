@@ -4,6 +4,7 @@ export const listingCreate = newListing => ({type: 'LISTING_CREATE', payload: ne
 
 export const setLoginSession = loggedInUser => ({type: 'SET_LOGIN_SESSION', payload: loggedInUser})
 
+export const redirectToAuction = auctionId => ({ type: 'AUCTION_REDIRECT', payload: auctionId })
 
 
 // export const userCreate = newUser => ({type: 'USER_CREATE', payload: newUser})

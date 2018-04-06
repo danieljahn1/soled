@@ -4,6 +4,8 @@ import { Link, Redirect } from 'react-router-dom'
 
 import axios from 'axios';
 
+import { redirectToAuction } from '../redux/actions'
+
 class Auction extends Component {
     constructor(props) {
         super(props);
@@ -105,7 +107,6 @@ class Auction extends Component {
         // Get the bids of the auction
         axios.get('http://localhost:5000/soled/bid/auctionId/' + this.props.match.params.auctionId)
             .then (bidResponse => {
-                // console.log(bidResponse.data);
 
                 this.setState({
                     bids: bidResponse.data,
@@ -126,7 +127,6 @@ class Auction extends Component {
                 // Get the highest bidder user
                 axios.get('http://localhost:5000/soled/user/id/' + this.state.highBidderId)
                 .then (highBidResponse  => {
-                    // console.log(highBidResponse.data);
 
                     this.setState({
                         highBidder: highBidResponse.data
@@ -386,6 +386,8 @@ class Auction extends Component {
             else {
                 // Anonymous user. Direct them to sign in
                 alert("You must sign in to place a bid.");
+
+                this.props.setAuctionViewed(this.state.auction.id);
                 this.setState({ 
                     redirect: true
                    })
@@ -462,6 +464,12 @@ const MapStateToProps = state => {
     return {
         viewItems: state.viewItems,
         loggedInUser: state.loggedInUser
+    }
+}
+
+const MapDispatchToProps = dispatch => {
+    return {
+        setAuctionViewed: auctionId => dispatch(joinEventAnon(auctionId))
     }
 }
 
