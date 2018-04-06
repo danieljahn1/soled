@@ -53,6 +53,8 @@ class Auction extends Component {
                     // Get the bids of the auction
                     this.getAuctionBids();
 
+
+
                     // Set up the countdown timer
                     var endDate = this.state.auction.endDate;
                     var self = this;
@@ -61,32 +63,11 @@ class Auction extends Component {
                             // Auction ended. Set the winner of the auction based on the highest bid
                             
                             if ( new Date(Date.now()) >= new Date(self.state.auction.endDate) ) {
-                                // Auction is over
-                                
+                                // Auction is over                                
                                 // Get the bids
-                                self.getAuctionBids();
-
-                                
                                 // Get the highest bidder's user ID and set to the auction's WinnerID
+                                self.checkAuctionWinner();
                                 
-                                var auctionUpdate  = {
-                                    id: self.state.auction.id,
-                                    sneakerId: self.state.auction.sneakerId,
-                                    sellerId: self.state.auction.sellerId,
-                                    startDate: self.state.auction.startDate,
-                                    endDate: self.state.auction.endDate,
-                                    minPrice: self.state.auction.minPrice,
-                                    maxPrice: self.state.auction.maxPrice,
-                                    winnerId: self.state.highBidder.id,
-                                    completePayment: false
-                                }
-
-                                axios.put('http://localhost:5000/soled/auction/' + self.state.auction.id, auctionUpdate )
-                                    .then (response => {
-                                        if (response.status == 200) (
-                                            alert("Auction has ended. The winner is " + self.state.highBidder.username)
-                                        )
-                                    })
                             }
                             
                         }
@@ -105,8 +86,7 @@ class Auction extends Component {
             .then (bidResponse => {
 
                 this.setState({
-                    bids: bidResponse.data,
-                    
+                    bids: bidResponse.data                    
                 });
                 
                 // Get the high bid and bidderID and set in state to display
@@ -126,7 +106,40 @@ class Auction extends Component {
             })
     }
 
-    
+    checkAuctionWinner() {
+        // Check if the auction is expired. If so then declare a winner
+        if ( new Date(Date.now()) >= new Date(this.state.auction.endDate) ) {
+            // Auction is over                                
+            // Get the bids
+            this.getAuctionBids();
+            
+            // Get the highest bidder's user ID and set to the auction's WinnerID
+            this.setAuctionWinner();
+        }
+    }
+
+    setAuctionWinner() {
+         // Get the highest bidder's user ID and set to the auction's WinnerID
+                                
+         var auctionUpdate  = {
+            id: this.state.auction.id,
+            sneakerId: this.state.auction.sneakerId,
+            sellerId: this.state.auction.sellerId,
+            startDate: this.state.auction.startDate,
+            endDate: this.state.auction.endDate,
+            minPrice: this.state.auction.minPrice,
+            maxPrice: this.state.auction.maxPrice,
+            winnerId: this.state.highBidder.id,
+            completePayment: false
+        }
+
+        axios.put('http://localhost:5000/soled/auction/' + this.state.auction.id, auctionUpdate )
+            .then (response => {
+                // if (response.status == 200) (
+                //     // alert("Auction has ended. The winner is " + this.state.highBidder.username)
+                // )
+            })
+    }
     
 
     render() { 
