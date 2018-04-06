@@ -53,7 +53,7 @@ class SignIn extends Component {
             return <Redirect to={ this.goToAuctionUrl() } />
         }
         else if (redirect) {
-            return <Redirect to="/viewsoles" />
+            return <Redirect to="/welcome" />
         }
 
         return (
