@@ -7,16 +7,14 @@ class MyAuctions extends Component {
         super(props);
         this.state = {
             myUserId: '',
-
-            allAuctionsArr: [],
             myAuctionsArr: [],
             myWinningsArr: [],
-
             allUsersArr: [],
             allSneakersArr: [],
-
-            usersAuctions: [],
-            sneakersAuctionsArr: []
+            myAuctionsSneakersArr: [],
+            myAuctionsSneakersUsersArr: [],
+            myWinningsSneakersArr: [],
+            myWinningsSneakersUsersArr: []
         }
     }
 
@@ -30,27 +28,58 @@ class MyAuctions extends Component {
                 axios.get('http://localhost:5000/soled/auction/')
                     .then(response => {
                         this.setState({
-                            allAuctionsArr: response.data,
                             myAuctionsArr: response.data.filter(auction => auction.sellerId == this.state.myUserId),
                             myWinningsArr: response.data.filter(auction => auction.winnerId == this.state.myUserId),
                         })
-                        // console.log(this.state.myAuctionsArr)
-                        // console.log(this.state.myWinningsArr)
-                        // console.log(this.state.allAuctionsArr)
+                        console.log("my Auctions Arr")
+                        console.log(this.state.myAuctionsArr)
+                        console.log("my Winnings Arr")
+                        console.log(this.state.myWinningsArr)
                     })
                 axios.get('http://localhost:5000/soled/user/')
                     .then(response => {
                         this.setState({
                             allUsersArr: response.data
                         })
-                        // console.log(this.state.allUsersArr)
+                        console.log("all Users Arr")
+                        console.log(this.state.allUsersArr)
                     })
                 axios.get('http://localhost:5000/soled/sneaker/')
                     .then(response => {
                         this.setState({
                             allSneakersArr: response.data
                         })
-                        // console.log(this.state.allSneakersArr)
+                        console.log("all Sneakers Arr")
+                        console.log(this.state.allSneakersArr)
+                        this.setState({
+                            myAuctionsSneakersArr: this.state.myAuctionsArr.map((auction, index) => this.state.allSneakersArr.filter(sneaker => auction.sneakerId == sneaker.id).map(sneaker =>
+                                [auction, sneaker]
+                            ))
+                        })
+                        console.log("sneakers' Auctions Arr")
+                        console.log(this.state.myAuctionsSneakersArr)
+                        this.setState({
+                            // myAuctionsSneakersUsersArr: this.state.myAuctionsSneakersArr.map((auction, index) => this.state.allUsersArr.filter(winner => winner.id == auction[0][0].winnerId).map(winner =>
+                            //     [auction, winner]
+                            // ))
+                            myAuctionsSneakersUsersArr: this.state.myAuctionsSneakersArr.map((auction, index) => this.state.allUsersArr.filter(seller => seller.id == auction[0][0].sellerId).map(seller =>
+                                [auction, seller]
+                            ))
+                        })
+                        console.log(this.state.myAuctionsSneakersUsersArr)
+                        this.setState({
+                            myWinningsSneakersArr: this.state.myWinningsArr.map((auction, index) => this.state.allSneakersArr.filter(sneaker => auction.sneakerId == sneaker.id).map(sneaker =>
+                                [auction, sneaker]
+                            ))
+                        })
+                        console.log("sneakers' Winnings Arr")
+                        console.log(this.state.myWinningsSneakersArr)
+                        this.setState({
+                            myWinningsSneakersUsersArr: this.state.myWinningsSneakersArr.map((auction, index) => this.state.allUsersArr.filter(seller => seller.id == auction[0][0].sellerId).map(seller =>
+                                [auction, seller]
+                            ))
+                        })
+                        console.log(this.state.myWinningsSneakersUsersArr)
                     })
             })
     }
@@ -60,54 +89,46 @@ class MyAuctions extends Component {
             <div>
                 <h3 className="col-md-12">My Listings</h3>
                 <div className="col-md-12">
-                    {
-                        // this.state.allUsersArr.map((seller, index) => this.state.myAuctionsArr.filter(auctions => auctions.sellerId == seller.id).map(auction =>
-                        //     this.state.allUsersArr.map((winner, index) => this.state.myAuctionsArr.filter(auctions => auctions.winnerId == winner.id).map(auction =>
-                                this.state.allSneakersArr.map((sneaker, index) => this.state.myAuctionsArr.filter(auctions => auctions.sneakerId == sneaker.id).map(auction =>
-                                    <div className="col-md-4" key={auction.id}>
-                                        {/* <div>Id: {auction.id}</div> */}
-                                        <h3> {sneaker.brand}, {sneaker.model}, {sneaker.version} </h3>
-                                        <div>Size: {sneaker.size}</div>
-                                        {/* <div>Seller: {seller.username}</div> */}
-                                        <div>Seller: {auction.sellerId}</div>
-                                        <div>Start Date: {auction.startDate}</div>
-                                        <div>End Date: {auction.endDate}</div>
-                                        <div>Start Price: ${auction.minPrice}</div>
-                                        {/* <div>End Price: ${auction.maxPrice}</div> */}
-                                        {/* <div>Winner: {winner.username}</div> */}
-                                        <div>Winner: {auction.winnerId}</div>
-                                        <div>Brand: {sneaker.brand}</div>
-                                        <Link to={"/sole/" + auction.id}><img src={sneaker.sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
-                                        <h1></h1>
-                                        {(!auction.completetPayment)
-                                            ?
-                                            <button className="btn"></button>
-                                            :
-                                            <button className="btn"></button>
-                                        }
-                                        <h1></h1>
-                                    </div>
-                                ))
-                            // ))
-                        // ))
-                    }
+                    {this.state.myAuctionsSneakersUsersArr.map((auction, index) =>
+                        <div className="col-md-4" key={auction[0][0][0][0].id}>
+                            {/* <div>Id: {auction[0][0][0][0].id}</div> */}
+                            <h3> {auction[0][0][0][1].brand}, {auction[0][0][0][1].model}, {auction[0][0][0][1].version}</h3>
+                            <div>Size: {auction[0][0][0][1].size}</div>
+                            <div>Seller: {this.state.allUsersArr.filter(user => user.id == this.state.myUserId).map(user => user.username)}</div>
+                            <div>Start Date: {auction[0][0][0][0].startDate}</div>
+                            <div>End Date: {auction[0][0][0][0].endDate}</div>
+                            <div>Start Price: ${auction[0][0][0][0].minPrice}</div>
+                            {/* <div>End Price: ${auction[0][0][0][0].maxPrice}</div> */}
+                            {/* <div>Winner: {auction[0][1].username}</div> */}
+                            <h2></h2>
+                            <Link to={"/sole/" + auction[0][0][0][0].id}><img src={auction[0][0][0][1].sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
+                            <h1></h1>
+                            {(!auction.completetPayment)
+                                ?
+                                <button className="btn"></button>
+                                :
+                                <button className="btn"></button>
+                            }
+                            <h1></h1>
+                        </div>
+                    )}
                 </div>
                 <h3 className="col-md-12">My Winnings</h3>
                 <div className="col-md-12">
-                    {this.state.allSneakersArr.map((sneaker, index) => this.state.myWinningsArr.filter(auctions => auctions.sneakerId == sneaker.id).map(auction =>
-                        <div className="col-md-4" key={auction.id}>
-                            {/* <div>Id: {auction.id}</div> */}
-                            <h3> {sneaker.brand}, {sneaker.model}, {sneaker.version} </h3>
-                            <div>Size: {sneaker.size}</div>
-                            <div>Seller: {auction.sellerId}</div>
-                            <div>Start Date: {auction.startDate}</div>
-                            <div>End Date: {auction.endDate}</div>
-                            <div>Start Price: ${auction.minPrice}</div>
-                            {/* <div>End Price: ${auction.maxPrice}</div> */}
-                            <div>Winner: {auction.winnerId}</div>
-                            <Link to={"/sole/" + auction.id}><img src={sneaker.sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
+                    {this.state.myWinningsSneakersUsersArr.map((auction, index) =>
+                        <div className="col-md-4" key={auction[0][0][0][0].id}>
+                            {/* <div>Id: {auction[0][0][0][0].id}</div> */}
+                            <h3> {auction[0][0][0][1].brand}, {auction[0][0][0][1].model}, {auction[0][0][0][1].version} </h3>
+                            <div>Size: {auction[0][0][0][1].size}</div>
+                            <div>Seller: {auction[0][1].username}</div>
+                            <div>Start Date: {auction[0][0][0][0].startDate}</div>
+                            <div>End Date: {auction[0][0][0][0].endDate}</div>
+                            <div>Start Price: ${auction[0][0][0][0].minPrice}</div>
+                            {/* <div>End Price: ${auction[0][0][0][0].maxPrice}</div> */}
+                            <div>Winner: {this.state.allUsersArr.filter(user => user.id == this.state.myUserId).map(user => user.username)}</div>
+                            <Link to={"/sole/" + auction[0][0][0][1].id}><img src={auction[0][0][0][1].sneakerPics[0].path} alt="auction sneaker image" width="250" /></Link>
                             <h1></h1>
-                            {(!auction.completePayment)
+                            {(!auction[0][0][0][0].completePayment)
                                 ?
                                 <button className="btn btn-primary">Complete Transaction</button>
                                 :
@@ -115,7 +136,7 @@ class MyAuctions extends Component {
                             }
                             <h1></h1>
                         </div>
-                    ))}
+                    )}
                     <h1></h1>
                 </div>
             </div>

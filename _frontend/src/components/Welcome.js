@@ -13,6 +13,7 @@ class Welcome extends Component {
     componentDidMount() {
         console.log(this.props.userInSession)
     }
+    
     render() {
         return (
             <div className="col-md-10">
