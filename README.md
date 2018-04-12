@@ -4,7 +4,7 @@ RCA Project 04 - Team LEAD's SOLEd Web App
 ## About
 SOLEd is an auction site that allows its members to buy used sneakers or list sneakers to sell. At the end of the auction the person with the highest bid wins the sneaker.
 
-PickUp was created using CSS, Bootstrap, React JS, Redux, C# and Web API.
+SOLEd was created using CSS, Bootstrap, React JS, Redux, C# and Web API.
 
 
 ## Installation and Setup
